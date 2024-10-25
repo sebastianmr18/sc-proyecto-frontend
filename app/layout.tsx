@@ -1,4 +1,4 @@
-import "./globals.css";
+import "@/styles/globals.css";
 
 export default function RootLayout({
   children,
@@ -7,6 +7,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+      </head>
       <body>
         {children}
       </body>

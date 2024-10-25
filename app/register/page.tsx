@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import Header from '../components/Header';
+import Header from '../../components/Header';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -26,9 +26,8 @@ const Register = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const { user_id, first_name, last_name, email, password, confirm_password } = formData;
         try {
-            const response = await axios.post('http://localhost:8000/api/register/', formData);
+            const response = await axios.post('api/register/', formData);
             console.log('User Registered', response.data);
             router.push('/login');
         } catch (error) {
