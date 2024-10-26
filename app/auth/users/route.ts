@@ -3,9 +3,10 @@ import { NextRequest, NextResponse } from 'next/server';
 
 // Función reutilizable para manejar el registro
 async function handleRegister(data: any) {
-    const apiURL = process.env.NEXT_PUBLIC_API_URL;
+    //const apiURL = process.env.NEXT_PUBLIC_API_URL;
+    const URL = process.env.NEXT_PUBLIC_URL;
     try {
-        const response = await axios.post(`${apiURL}/register/`, data);
+        const response = await axios.post(`${URL}/auth/users/`, data);
         return { status: 200, data: response.data };
     } catch (error: any) {
         if (error.response) {

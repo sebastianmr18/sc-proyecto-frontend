@@ -27,9 +27,9 @@ const Register = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const response = await axios.post('api/register/', formData);
+            const response = await axios.post('auth/users/', formData);
             console.log('User Registered', response.data);
-            router.push('/login');
+            router.push(`/auth/users/activation-pending`);
         } catch (error) {
             console.error('Error', error);
         }
