@@ -1,20 +1,34 @@
 import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
 
-// Función reutilizable para manejar el registro
-async function handleRegister(data: any) {
-    //const apiURL = process.env.NEXT_PUBLIC_API_URL;
+// Define el tipo para los datos de registro
+interface RegisterData {
+    user_id: string;
+    email: string;
+    first_name: string;
+    last_name: string;
+    password: string;
+    confirm_password: string;
+}
+
+// Define el tipo de la respuesta que devuelve la función
+interface RegisterResponse {
+    status: number;
+    data: any; 
+}
+
+async function handleRegister(data: RegisterData): Promise<RegisterResponse> {
     const URL = process.env.NEXT_PUBLIC_URL;
     try {
         const response = await axios.post(`${URL}/auth/users/`, data);
         return { status: 200, data: response.data };
-    } catch (error: any) {
-        if (error.response) {
+    } catch (error: unknown) {
+        if (axios.isAxiosError(error) && error.response) {
             return { status: error.response.status, data: error.response.data };
-        } else if (error.request) {
-            return { status: 500, data: { message: 'No response from the backend' } };
-        } else {
+        } else if (error instanceof Error && error.message) {
             return { status: 500, data: { message: error.message } };
+        } else {
+            return { status: 500, data: { message: 'An unexpected error occurred' } };
         }
     }
 }

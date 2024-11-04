@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import Header from '../../components/Header';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -37,7 +36,6 @@ const Register = () => {
 
     return (
         <>
-        <Header />
             <div className='max-w-md mx-auto p-6 border border-gray-300 rounded-lg shadow-md'>
                 <h1 className='text-2xl text-center mb-4'>
                     Registro de usuario
