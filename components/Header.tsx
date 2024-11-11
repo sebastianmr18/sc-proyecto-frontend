@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useAuth } from '@/app/context/authContext';
 
 const Header = () => {
-    const { isAuthenticated, userName, logout } = useAuth();
+    const { isAuthenticated, user, logout } = useAuth();
     return (
         <header className="bg-[#d2ff72] p-4 shadow-lg">
             <div className="flex justify-between items-center">
@@ -15,7 +15,7 @@ const Header = () => {
                         {!isAuthenticated ? ( 
                         <>
                             <li>
-                                <Link href="/register" // Esto debería ser así
+                                <Link href="/register"
                                     className="bg-[#91dd05] text-[#1c3201] py-2 px-4 rounded hover:bg-[#6fb100] active:bg-[#548605] transition duration-200">
                                     Register
 
@@ -30,7 +30,13 @@ const Header = () => {
                         </>
                         ) : (
                             <>
-                                <span>Welcome, {userName}</span>
+                                <span>Welcome! {user?.first_name}</span>
+                                <li>
+                                    <Link href="/auth/users/profile" 
+                                        className="bg-[#91dd05] text-[#1c3201] py-2 px-4 rounded hover:bg-[#6fb100] active:bg-[#548605] transition duration-200">
+                                        Profile
+                                    </Link>
+                                </li>
                                 <li>
                                     <Link href="/auth/users/logout" 
                                         className="bg-[#91dd05] text-[#1c3201] py-2 px-4 rounded hover:bg-[#6fb100] active:bg-[#548605] transition duration-200"

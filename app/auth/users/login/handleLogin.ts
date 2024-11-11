@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 async function handleLogin(email: string, password: string) {
-    const URL = process.env.NEXT_PUBLIC_URL;
+    const NEXT_PUBLIC_URL = process.env.NEXT_PUBLIC_URL;
     try {
-        const response = await axios.post(`${URL}/auth/jwt/create/`, {
+        const response = await axios.post(`${NEXT_PUBLIC_URL}/auth/jwt/create/`, {
             email,
             password,
         });

@@ -3,10 +3,6 @@
 import { useEffect } from "react";
 
 export default function Home() {
-  useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    console.log(token);
-  }, []);
   return (
     <div>
       <main>
