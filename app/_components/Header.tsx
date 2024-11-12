@@ -1,9 +1,10 @@
 "use client";
 import Link from 'next/link';
 import { useAuth } from '@/app/_context/authContext';
+import LoadingScreen from '@/app/_components/LoadingScreen';
 
 const Header = () => {
-    const { isAuthenticated, user, logout } = useAuth();
+    const { isAuthenticated, user, logout, isLoading } = useAuth();
     return (
         <header className="bg-[#d2ff72] p-4 shadow-lg">
             <div className="flex justify-between items-center">
@@ -12,7 +13,7 @@ const Header = () => {
                 </Link>
                 <nav>
                     <ul className="flex justify-end space-x-4">                  
-                        {!isAuthenticated ? ( 
+                        {isLoading ? (<></>) : !isAuthenticated ? ( 
                         <>
                             <li>
                                 <Link href="/register"

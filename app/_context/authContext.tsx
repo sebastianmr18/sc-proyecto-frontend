@@ -10,7 +10,9 @@ interface AuthContextType {
     fetchUserProfile: () => Promise<void>;
     login: (email: string, password: string) => Promise<void>;
     logout: () => void;
+    isLoading: boolean;
     isAuthenticated: boolean;
+    setIsAuthenticated: (isAuth: boolean) => void;
 }
 
 interface User {
@@ -26,7 +28,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [isLoading, setLoading] = useState(true);
     const [user, setUser] = useState<User | null>(null);
     const router = useRouter();
     const NEXT_PUBLIC_URL = process.env.NEXT_PUBLIC_URL;
@@ -39,6 +41,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setIsAuthenticated(true);
             setUser(JSON.parse(storedUser));
         }
+        setLoading(false);
     }, []);
 
     const login = async (email: string, password: string) => {
@@ -93,7 +96,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 
     return (
-        <AuthContext.Provider value={{ user, fetchUserProfile, login, logout, isAuthenticated }}>
+        <AuthContext.Provider value={{ user, fetchUserProfile, login, logout, isLoading, isAuthenticated, setIsAuthenticated}}>
             {children}
         </AuthContext.Provider>
     );

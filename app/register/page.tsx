@@ -1,9 +1,10 @@
 //app/register/page.tsx
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { withAuthRedirect } from '@/app/_utils/withAuthRedirect';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -161,4 +162,4 @@ const Register = () => {
     )
 };
 
-export default Register;
+export default withAuthRedirect(Register);

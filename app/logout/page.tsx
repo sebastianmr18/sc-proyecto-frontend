@@ -1,4 +1,6 @@
-export default function Logout() {
+"use client";
+import withAuth from '@/app/_utils/withAuth';
+const Logout = () => {
     return (
         <>
             <p className='text-center pt-4'>
@@ -7,3 +9,5 @@ export default function Logout() {
         </>
     )
 }
+
+export default withAuth(Logout);

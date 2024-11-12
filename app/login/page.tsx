@@ -1,9 +1,9 @@
 "use client";
 import { useState } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/app/_context/authContext';
 import Link from 'next/link';
+import { withAuthRedirect } from '@/app/_utils/withAuthRedirect';
 
 const Login = () => {
     const { login } = useAuth();
@@ -69,4 +69,4 @@ const Login = () => {
 }
 
 
-export default Login;
+export default withAuthRedirect(Login);
