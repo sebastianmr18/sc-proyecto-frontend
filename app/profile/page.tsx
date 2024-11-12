@@ -1,8 +1,8 @@
 // app/profile/Profile.tsx
 "use client";
 import React, { useEffect } from 'react';
-import { useAuth } from '@/app/context/authContext';
-import withAuth from '@/app/utils/withAuth';
+import { useAuth } from '@/app/_context/authContext';
+import withAuth from '@/app/_utils/withAuth';
 import defaultAvatar from '@/assets/default-avatar.png';
 
 const Profile = () => {

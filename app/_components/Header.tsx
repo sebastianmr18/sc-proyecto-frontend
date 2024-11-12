@@ -1,6 +1,6 @@
 "use client";
 import Link from 'next/link';
-import { useAuth } from '@/app/context/authContext';
+import { useAuth } from '@/app/_context/authContext';
 
 const Header = () => {
     const { isAuthenticated, user, logout } = useAuth();
@@ -32,13 +32,13 @@ const Header = () => {
                             <>
                                 <span>Welcome! {user?.first_name}</span>
                                 <li>
-                                    <Link href="/auth/users/profile" 
+                                    <Link href="/profile" 
                                         className="bg-[#91dd05] text-[#1c3201] py-2 px-4 rounded hover:bg-[#6fb100] active:bg-[#548605] transition duration-200">
                                         Profile
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/auth/users/logout" 
+                                    <Link href="/logout" 
                                         className="bg-[#91dd05] text-[#1c3201] py-2 px-4 rounded hover:bg-[#6fb100] active:bg-[#548605] transition duration-200"
                                         onClick={logout}>
                                         Logout

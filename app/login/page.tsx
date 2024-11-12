@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/app/context/authContext';
+import { useAuth } from '@/app/_context/authContext';
 import Link from 'next/link';
 
 const Login = () => {
