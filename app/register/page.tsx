@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
@@ -13,26 +13,67 @@ const Register = () => {
         password: '',
         confirm_password: '',
     });
-
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [passwordsMatch, setPasswordsMatch] = useState(true);  // Estado para verificar si las contraseñas coinciden
     const router = useRouter();
 
+    // Función para actualizar el estado de los campos
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
+        const { name, value } = e.target;
+        setFormData((prevFormData) => {
+            const updatedFormData = { ...prevFormData, [name]: value };
+
+            // Comprobar si las contraseñas coinciden después de actualizar el valor
+            if (name === 'password' || name === 'confirm_password') {
+                setPasswordsMatch(updatedFormData.password === updatedFormData.confirm_password);
+            }
+
+            return updatedFormData;
         });
     };
 
+    // Función para manejar el envío del formulario
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        try {
-            const response = await axios.post('auth/users/', formData);
-            console.log('User Registered', response.data);
-            router.push(`/auth/users/activation-pending`);
-        } catch (error) {
-            console.error('Error', error);
+        if(!passwordsMatch) {
+            setErrorMessage('Las contraseñas no coinciden');
+        } else {
+            try {
+                const response = await axios.post('auth/users/', formData);
+                console.log('User Registered', response.data);
+                router.push(`/auth/users/activation-pending`);
+            } catch (error: any) {
+                if (error.response) {
+                    // Si el backend devuelve un error de validación
+                    const errorData = error.response.data;
+                    if (errorData.user_id) {
+                        setErrorMessage(errorData.user_id[0]); // Mostrar el error relacionado con el user_id
+                    } else if (errorData.password) {
+                        setErrorMessage(errorData.password[0]); // Mostrar el error relacionado con la contraseña
+                    } else {
+                        setErrorMessage('Error al registrar el usuario');
+                    }
+                } else {
+                    setErrorMessage('Error al registrar el usuario');
+                }
+                console.log('Error', error);
+            }
         }
+
     };
+
+    // Función para comprobar si el formulario es válido
+    const isFormValid = () => {
+        return (
+            formData.password.length >= 8 &&
+            formData.confirm_password.length >= 8 &&
+            passwordsMatch &&
+            formData.user_id &&
+            formData.email &&
+            formData.first_name &&
+            formData.last_name
+        );
+    };    
 
     return (
         <>
@@ -94,9 +135,15 @@ const Register = () => {
                         className='w-full p-2 mb-4 border border-gray-300 rounded-lg shadow-md'
                         onChange={handleChange}
                         required
-                    />
-                    <button type="submit"
+                    />            
+                    {errorMessage && <p className='text-red-500 text-center mb-4'>{errorMessage}</p>}
+                    {!passwordsMatch && (
+                        <p className='text-red-500 text-center mb-4'>Las contraseñas no coinciden.</p>
+                    )}
+                    <button 
+                        type="submit"
                         className='w-full p-2 bg-green-500 text-white rounded hover:bg-green-600 active:bg-green-700 transition duration-200 shadow-md'
+                        disabled={isFormValid() ? false : true}
                     >
                         Registrarse
                     </button>

@@ -43,16 +43,27 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const login = async (email: string, password: string) => {
         setLoading(true);
-        const response = await handleLogin(email, password);
-        if (response.access && response.refresh) {
-            localStorage.setItem('accessToken', response.access);
-            localStorage.setItem('refreshToken', response.refresh);
-            localStorage.setItem("user", JSON.stringify(response.user));
-            setIsAuthenticated(true);
-            setUser(response.user);
-            router.push('/dashboard');
+        try {
+            const response = await handleLogin(email, password);
+            if (response.access && response.refresh) {
+                localStorage.setItem('accessToken', response.access);
+                localStorage.setItem('refreshToken', response.refresh);
+                localStorage.setItem("user", JSON.stringify(response.user));
+                setIsAuthenticated(true);
+                setUser(response.user);
+                router.push('/dashboard');
+            } else {
+                throw new Error('Authentication failed');
+            }
+            setLoading(false);
+        } catch (error) {
+            setIsAuthenticated(false);
+            setUser(null);
+            console.error('Error logging in:', error);
+            throw error;
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     const logout = () => {
@@ -62,12 +73,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setUser(null);
         router.push('/login');
     };
-
-    useEffect(() => {
-        const token = localStorage.getItem('accessToken');
-        setIsAuthenticated(!!token);
-        fetchUserProfile();
-    }, []);
 
     const fetchUserProfile = async () => {
         try {

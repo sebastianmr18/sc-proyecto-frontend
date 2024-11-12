@@ -11,7 +11,7 @@ const Login = () => {
         email: '',
         password: '',
     });
-
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const router = useRouter();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,7 +23,12 @@ const Login = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        await login(formData.email, formData.password);
+        try {
+            await login(formData.email, formData.password);
+        } catch (error) {
+            setErrorMessage('Email o contraseña incorrectos');
+        }
+        
     }
 
     return (
@@ -50,7 +55,8 @@ const Login = () => {
                     className='w-full p-2 mb-4 border border-gray-300 rounded-lg shadow-md'
                     required
                 />
-                <button type='submit'
+                {errorMessage && <p className='text-red-500 text-center pd-4'>{errorMessage}</p>}
+                <button type='submit' disabled={formData.email === '' || formData.password === ''}
                     className='w-full p-2 bg-green-500 text-white rounded hover:bg-green-600 active:bg-green-700 transition duration-200 shadow-md'>
                     Ingresar
                 </button>
