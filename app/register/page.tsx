@@ -1,3 +1,4 @@
+//app/register/page.tsx
 "use client";
 
 import { useState, useEffect } from 'react';
@@ -36,24 +37,31 @@ const Register = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if(!passwordsMatch) {
+            // Si las contraseñas no coinciden, mostrar un error
             setErrorMessage('Las contraseñas no coinciden');
+            return;
         } else {
             try {
-                const response = await axios.post('auth/users/', formData);
+                // Enviar el formulario a la ruta de registro
+                const response = await axios.post('auth/users/register/', formData);
                 console.log('User Registered', response.data);
                 router.push(`/auth/users/activation-pending`);
             } catch (error: any) {
                 if (error.response) {
-                    // Si el backend devuelve un error de validación
+                    // Si el backend devuelve un error de validación, manejamos los errores específicos
                     const errorData = error.response.data;
                     if (errorData.user_id) {
+                        // Manejo de error, user_id repetido
                         setErrorMessage(errorData.user_id[0]); // Mostrar el error relacionado con el user_id
                     } else if (errorData.password) {
+                        //Manejo de error, password que no cumple con las reglas
                         setErrorMessage(errorData.password[0]); // Mostrar el error relacionado con la contraseña
                     } else {
+                        // Si hay un error genérico, mostrar un mensaje genérico
                         setErrorMessage('Error al registrar el usuario');
                     }
                 } else {
+                    // En caso de que el error no venga del backend, mostrar un error general
                     setErrorMessage('Error al registrar el usuario');
                 }
                 console.log('Error', error);
