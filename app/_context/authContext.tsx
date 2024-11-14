@@ -4,6 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import handleLogin from '@/app/_api/users/login/handleLogin';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 interface AuthContextType {
     user: User | null;
@@ -34,8 +35,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const NEXT_PUBLIC_URL = process.env.NEXT_PUBLIC_URL;
 
     useEffect(() => {
-        const storedAccessToken = localStorage.getItem("accessToken");
-        const storedUser = localStorage.getItem("user");
+        const storedAccessToken = Cookies.get("accessToken");
+        const storedUser = Cookies.get("user");
 
         if (storedUser && storedAccessToken) {
             setIsAuthenticated(true);
@@ -49,9 +50,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         try {
             const response = await handleLogin(email, password);
             if (response.access && response.refresh) {
-                localStorage.setItem('accessToken', response.access);
-                localStorage.setItem('refreshToken', response.refresh);
-                localStorage.setItem("user", JSON.stringify(response.user));
+                Cookies.set('accessToken', response.access, {
+                    secure: true,
+                    httpOnly: false,
+                    sameSite: 'strict',
+                    expires: 1 / 24, // 1 hora
+                });
+                Cookies.set('refreshToken', response.refresh, {
+                    secure: true,
+                    httpOnly: false,
+                    sameSite: 'strict',
+                    expires: 7, // 7 días
+                });
+                Cookies.set('user', JSON.stringify(response.user), {
+                    secure: true,
+                    sameSite: 'strict',
+                    expires: 7,
+                });
                 setIsAuthenticated(true);
                 setUser(response.user);
                 router.push('/dashboard');
@@ -70,8 +85,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
 
     const logout = () => {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
+        Cookies.remove('accessToken');
+        Cookies.remove('refreshToken');
+        Cookies.remove("user");
         setIsAuthenticated(false);
         setUser(null);
         router.push('/login');
@@ -79,14 +95,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const fetchUserProfile = async () => {
         try {
-            const token = localStorage.getItem('storedAccessToken');
+            const token = Cookies.get('storedAccessToken');
             if (token) {
-                const response = await axios.get(`${NEXT_PUBLIC_URL}/auth/users/me/` , {
+                const response = await axios.get(`${NEXT_PUBLIC_URL}/auth/users/me/`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 setUser(response.data);
                 setIsAuthenticated(true);
-                localStorage.setItem("user", JSON.stringify(response.data));
+                Cookies.set("user", JSON.stringify(response.data));
             }
         } catch (error) {
             console.error('Failed to fetch user profile', error);
@@ -96,7 +112,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 
     return (
-        <AuthContext.Provider value={{ user, fetchUserProfile, login, logout, isLoading, isAuthenticated, setIsAuthenticated}}>
+        <AuthContext.Provider value={{ user, fetchUserProfile, login, logout, isLoading, isAuthenticated, setIsAuthenticated }}>
             {children}
         </AuthContext.Provider>
     );

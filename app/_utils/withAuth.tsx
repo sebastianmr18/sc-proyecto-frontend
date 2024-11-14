@@ -2,6 +2,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 const withAuth = (WrappedComponent: React.ComponentType) => {
     const AuthComponent = (props: any) => { 
@@ -9,7 +10,7 @@ const withAuth = (WrappedComponent: React.ComponentType) => {
         const [isAuthenticated, setIsAuthenticated] = useState(false);
 
         useEffect(() => {
-            const accessToken = localStorage.getItem('accessToken');
+            const accessToken = Cookies.get('accessToken');
             setIsAuthenticated(!!accessToken);
 
             if (!accessToken) {
