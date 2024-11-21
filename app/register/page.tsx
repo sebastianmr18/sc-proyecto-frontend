@@ -5,6 +5,7 @@ import { useState} from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { withAuthRedirect } from '@/app/_utils/withAuthRedirect';
+import '@/public/styles/form.css';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -44,7 +45,7 @@ const Register = () => {
         } else {
             try {
                 // Enviar el formulario a la ruta de registro
-                const response = await axios.post('auth/users/register/', formData);
+                const response = await axios.post('api/users/register/', formData);
                 console.log('User Registered', response.data);
                 router.push(`/auth/users/activation-pending`);
             } catch (error: any) {
@@ -86,72 +87,108 @@ const Register = () => {
 
     return (
         <>
-            <div className='max-w-md mx-auto p-6 border border-gray-300 rounded-lg shadow-md'>
-                <h1 className='text-2xl text-center mb-4'>
+            <div className='form-container'>
+                <h1 className='welcome-message'>
                     Registro de usuario
                 </h1>
-                <form onSubmit={handleSubmit}>
-                    <input
-                        type="number"
-                        name="user_id"
-                        placeholder="Número de identificación"
-                        value={formData.user_id}
-                        className='w-full p-2 mb-4 border border-gray-300 rounded-lg shadow-md'
-                        onChange={handleChange}
-                        required
-                    />            
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Correo Electrónico"
-                        value={formData.email}
-                        className='w-full p-2 mb-4 border border-gray-300 rounded-lg shadow-md'
-                        onChange={handleChange}
-                        required
-                    />
-                    <input
-                        type="text"
-                        name="first_name"
-                        placeholder="Nombre"
-                        value={formData.first_name}
-                        className='w-full p-2 mb-4 border border-gray-300 rounded-lg shadow-md'
-                        onChange={handleChange}
-                        required
-                    />
-                    <input
-                        type="text"
-                        name="last_name"
-                        placeholder="Apellido"
-                        value={formData.last_name}
-                        className='w-full p-2 mb-4 border border-gray-300 rounded-lg shadow-md'
-                        onChange={handleChange}
-                        required
-                    />
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Contraseña"
-                        value={formData.password}
-                        className='w-full p-2 mb-4 border border-gray-300 rounded-lg shadow-md'
-                        onChange={handleChange}
-                        required
-                    />
-                    <input
-                        type="password"
-                        name="confirm_password"
-                        placeholder="Confirmar contraseña"
-                        value={formData.confirm_password}
-                        className='w-full p-2 mb-4 border border-gray-300 rounded-lg shadow-md'
-                        onChange={handleChange}
-                        required
-                    />            
-                    {errorMessage && <p className='text-red-500 text-center mb-4'>{errorMessage}</p>}
+                <form onSubmit={handleSubmit} className='space-y-6'>
+                    <div className='w-full'>
+                        <label
+                            htmlFor='user_id'
+                            className="label-input">
+                            Número de identificación
+                        </label>                    
+                        <input
+                            type="number"
+                            name="user_id"
+                            value={formData.user_id}
+                            className='input-field'
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className='w-full'>
+                        <label
+                            htmlFor="email"
+                            className="label-input">
+                            Correo Electrónico
+                        </label>          
+                        <input
+                            type="email"
+                            name="email"            
+                            value={formData.email}
+                            className='input-field'
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className='w-full'>
+                        <label
+                            htmlFor="first_name"
+                            className="label-input">
+                            Nombre
+                        </label>
+                        <input
+                            type="text"
+                            name="first_name"                        
+                            value={formData.first_name}
+                            className='input-field'
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className='w-full'>
+                        <label
+                            htmlFor="last_name"
+                            className="label-input">
+                            Apellido
+                        </label>
+                        <input
+                            type="text"
+                            name="last_name"                        
+                            value={formData.last_name}
+                            className='input-field'
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className='w-full'>
+                        <label
+                            htmlFor="password"
+                            className="label-input">
+                            Contraseña
+                        </label>
+                        <input
+                            type="password"
+                            name="password"                        
+                            value={formData.password}
+                            className='input-field'
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className='w-full'>
+                        <label
+                            htmlFor="confirm_password"
+                            className="label-input">
+                            Confirmar contraseña
+                        </label>
+                        <input
+                            type="password"
+                            name="confirm_password"                        
+                            value={formData.confirm_password}
+                            className='input-field'
+                            onChange={handleChange}
+                            required
+                        />                    
+                    </div>
+                    {errorMessage && <p className='error-message'>{errorMessage}</p>}
                     {!passwordsMatch && (
-                        <p className='text-red-500 text-center mb-4'>Las contraseñas no coinciden.</p>
+                        <p className='error-message'>Las contraseñas no coinciden.</p>
                     )}
                     <button 
                         type="submit"
-                        className='w-full p-2 bg-green-500 text-white rounded hover:bg-green-600 active:bg-green-700 transition duration-200 shadow-md'
+                        className='submit-button'
                         disabled={isFormValid() ? false : true}
                     >
                         Registrarse

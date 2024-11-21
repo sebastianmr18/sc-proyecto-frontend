@@ -1,9 +1,10 @@
 "use client";
-import { useState } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/app/_context/authContext';
 import Link from 'next/link';
 import { withAuthRedirect } from '@/app/_utils/withAuthRedirect';
+import '@/public/styles/form.css';
 
 const Login = () => {
     const { login } = useAuth();
@@ -11,7 +12,8 @@ const Login = () => {
         email: '',
         password: '',
     });
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [showErrorMessage, setShowErrorMessage] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,47 +25,89 @@ const Login = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setIsSubmitting(true);
         try {
             await login(formData.email, formData.password);
-        } catch (error) {
-            setErrorMessage('Email o contraseña incorrectos');
+            router.push('/dashboard');
         }
-        
+        catch (error) {
+            if (error instanceof Error) {
+                setShowErrorMessage(true);
+                console.error('Error de autenticación:', error);
+            } else {
+                console.error('Error desconocido:', error);
+            }
+        } finally {
+            setIsSubmitting(false);
+        }
     }
 
+    const isValidForm = () => {
+        return formData.email !== '' && formData.password !== '';
+    };
+
+    
+
     return (
-        <div className='max-w-md mx-auto p-6 border border-gray-300 rounded-lg shadow-md'>
-            <h1 className='text-2xl text-center mb-4'>
-                Login de usuario
+        <div className='form-container'>
+            <h1 className='welcome-message'>
+                Bienvenido de nuevo!
             </h1>
-            <form onSubmit={handleSubmit}>
-                <input
-                    type='email'
-                    name='email'
-                    placeholder='Correo Electrónico'
-                    value={formData.email}
-                    onChange={handleChange}
-                    className='w-full p-2 mb-4 border border-gray-300 rounded-lg shadow-md'
-                    required
-                />
-                <input
-                    type='password'
-                    name='password'
-                    placeholder='Contraseña'
-                    value={formData.password}
-                    onChange={handleChange}
-                    className='w-full p-2 mb-4 border border-gray-300 rounded-lg shadow-md'
-                    required
-                />
-                {errorMessage && <p className='text-red-500 text-center pd-4'>{errorMessage}</p>}
-                <button type='submit' disabled={formData.email === '' || formData.password === ''}
-                    className='w-full p-2 bg-green-500 text-white rounded hover:bg-green-600 active:bg-green-700 transition duration-200 shadow-md'>
-                    Ingresar
-                </button>
+            <form onSubmit={handleSubmit} className='space-y-6'>
+                {/* Email */}
+                <div className='w-full'>
+                    <label
+                        htmlFor="email"
+                        className="label-input">
+                        Correo Electrónico
+                    </label>
+                    <input
+                        type='email'
+                        name='email'
+                        value={formData.email}
+                        onChange={handleChange}
+                        disabled={isSubmitting}
+                        className='input-field'
+                        required
+                    />
+                </div>
+                {/* Contraseña */}
+                <div className='w-full'>
+                    <label
+                        htmlFor="password"
+                        className="label-input">
+                        Contraseña
+                    </label>
+                    <input
+                        type='password'
+                        name='password'
+                        value={formData.password}
+                        onChange={handleChange}
+                        disabled={isSubmitting}
+                        className='input-field'
+                        required
+                    />
+                </div>
+                {/* Error Message */}
+                {showErrorMessage && (
+                    <p className="error-message">
+                        {'Email o contraseña incorrectos'}
+                    </p>
+                )}
+                {/* Submit Button */}
+                <button
+                    type="submit"
+                    disabled={isValidForm() && isSubmitting}
+                    className='submit-button'
+                >{isSubmitting ? 'Cargando...' : 'Iniciar sesión'}</button>
             </form>
-            <p className='text-center pt-4'>
-                ¿No tienes cuenta? <Link href="/register" className='text-blue-500 underline hover:text-blue-700'>Registrate</Link>
-            </p>
+                {/* Register Link */}
+                <p className="text-center pt-6">
+                    ¿No tienes cuenta?  
+                    <Link href="/register" className="text-blue-500 underline hover:text-blue-700">
+                        Regístrate
+                    </Link>
+                </p>
         </div>
     )
 }

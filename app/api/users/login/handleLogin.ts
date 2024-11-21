@@ -1,3 +1,4 @@
+"use client";
 import axios from 'axios';
 
 async function handleLogin(email: string, password: string) {

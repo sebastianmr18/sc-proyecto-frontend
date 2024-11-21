@@ -2,7 +2,7 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import handleLogin from '@/app/_api/users/login/handleLogin';
+import handleLogin from '@/app/api/users/login/handleLogin';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
@@ -11,7 +11,7 @@ interface AuthContextType {
     fetchUserProfile: () => Promise<void>;
     login: (email: string, password: string) => Promise<void>;
     logout: () => void;
-    isLoading: boolean;
+    //isLoading: boolean;
     isAuthenticated: boolean;
     setIsAuthenticated: (isAuth: boolean) => void;
 }
@@ -29,7 +29,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isLoading, setLoading] = useState(true);
+    //const [isLoading, setLoading] = useState(true);
     const [user, setUser] = useState<User | null>(null);
     const router = useRouter();
     const NEXT_PUBLIC_URL = process.env.NEXT_PUBLIC_URL;
@@ -42,11 +42,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setIsAuthenticated(true);
             setUser(JSON.parse(storedUser));
         }
-        setLoading(false);
+        //setLoading(false);
     }, []);
 
     const login = async (email: string, password: string) => {
-        setLoading(true);
+        //setLoading(true);
         try {
             const response = await handleLogin(email, password);
             if (response.access && response.refresh) {
@@ -69,18 +69,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 });
                 setIsAuthenticated(true);
                 setUser(response.user);
-                router.push('/dashboard');
             } else {
                 throw new Error('Authentication failed');
             }
-            setLoading(false);
+            //setLoading(false);
         } catch (error) {
             setIsAuthenticated(false);
             setUser(null);
             console.error('Error logging in:', error);
             throw error;
         } finally {
-            setLoading(false);
+            //setLoading(false);
         }
     };
 
@@ -112,7 +111,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
 
     return (
-        <AuthContext.Provider value={{ user, fetchUserProfile, login, logout, isLoading, isAuthenticated, setIsAuthenticated }}>
+        <AuthContext.Provider value={{ user, fetchUserProfile, login, logout, /*isLoading,*/ isAuthenticated, setIsAuthenticated }}>
             {children}
         </AuthContext.Provider>
     );
