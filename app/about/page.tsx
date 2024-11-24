@@ -1,3 +1,7 @@
+/** app/about/page.tsx */
+"use client";
+import withAuth from '@/app/_utils/withAuth';
+
 const About = () => {
     return (
         <div>
@@ -6,4 +10,4 @@ const About = () => {
     )
 }
 
-export default About;
+export default withAuth(About);

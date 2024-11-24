@@ -1,7 +1,9 @@
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import "@/styles/globals.css";
-import styles from "@/styles/layout.module.css";
+import Footer from "@/app/_components/Footer";
+import Header from "@/app/_components/Header";
+import "@/public/styles/globals.css";
+import styles from "@/public/styles/layout.module.css";
+import { AuthProvider } from "@/app/_context/authContext";
+import { RedirectProvider } from "@/app/_context/redirectContext";
 
 export default function RootLayout({
   children,
@@ -14,11 +16,15 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" />
       </head>
       <body>
-        <div className={styles.container}>
-          <Header />
-          <main className={styles.content}>{children}</main>
-          <Footer/>
-        </div>
+        <AuthProvider>
+          <RedirectProvider>
+          <div className={styles.container}>
+            <Header />
+            <main className={styles.content}>{children}</main>
+            <Footer/>
+          </div>
+          </RedirectProvider>
+        </AuthProvider>
       </body>
     </html>
   );
