@@ -1,6 +1,5 @@
 // components/HeroSection.tsx
 import React from 'react';
-import styles from "@/styles/heroSection.module.css";
 import { useRouter } from 'next/navigation';
 
 const HeroSection = () => {

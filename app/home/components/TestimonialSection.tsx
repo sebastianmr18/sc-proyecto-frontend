@@ -14,7 +14,7 @@ const TestimonialSection = () => {
             <div className="flex flex-col gap-5">
                 {testimonials.map((testimonial, index) => (
                     <div key={index} className="text-center italic">
-                        <p>"{testimonial.comment}"</p>
+                        <p>&quot;{testimonial.comment}&quot;</p>
                         <h4>- {testimonial.name}</h4>
                     </div>
                 ))}

@@ -20,14 +20,17 @@ const withAuth = (WrappedComponent: React.ComponentType) => {
             if (!accessToken) {
                 setRedirecting(true);
                 setTimeout(() => {
-                    <LoadingScreen/>
                     router.push('/home');
                     setRedirecting(false);
-                }, 6000);
+                }, 3000);
             }
-        }, [router]);
+        }, [router, setRedirecting]);
 
-        return isAuthenticated ? <WrappedComponent {...props} /> : null;
+        return (
+            <>
+                {!isAuthenticated ? <LoadingScreen />: <WrappedComponent {...props} /> }                
+            </>
+        )
     };
 
     return AuthComponent;

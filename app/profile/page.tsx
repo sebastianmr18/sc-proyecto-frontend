@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { useAuth } from '@/app/_context/authContext';
 import withAuth from '@/app/_utils/withAuth';
-import defaultAvatar from '@/assets/default-avatar.png';
+import Image from 'next/image';
 
 const Profile = () => {
     const { user, fetchUserProfile } = useAuth();
@@ -17,12 +17,7 @@ const Profile = () => {
     return (
         <div className="profile-container">
             <h2>Profile</h2>
-            <img 
-                src={user.profile_picture || 'https://api.dicebear.com/9.x/adventurer/svg'} 
-                alt="Profile" 
-                height={200} 
-                width={200}
-            />
+            <Image src={user.profile_picture || '/assets/default-avatar.jpg'} alt="Profile" height={200} width={200} />
             <p>Name: {user.first_name} {user.last_name}</p>
             <p>Email: {user.email}</p>
             {/* Agrega otros campos aquí */}
