@@ -29,6 +29,12 @@ const Filters: React.FC<FilterProps> = ({
     return (
         <div className="filters">
             <input
+                type="text"
+                placeholder="Buscar por ubicación"
+                value={locationFilter}
+                onChange={(e) => setLocationFilter(e.target.value)}
+            />
+            <input
                 type='range'
                 min="0"
                 max="200"

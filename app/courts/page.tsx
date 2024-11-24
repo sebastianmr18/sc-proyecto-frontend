@@ -5,6 +5,7 @@ import Image from "next/image";
 import LoadingScreen from "@/app/_components/LoadingScreen";
 import Filters from "./components/Filters";
 import '@/public/styles/court-card.css';
+import '@/public/styles/filter.css';
 
 const CourtsPage = () => {
     const [courts, setCourts] = useState([
@@ -63,6 +64,7 @@ const CourtsPage = () => {
 
     const filteredCourts = courts.filter(court => {
         return (
+            (!locationFilter || court.location.toLowerCase().includes(locationFilter.toLowerCase())) &&
             court.hourly_rate >= priceFilter[0] && court.hourly_rate <= priceFilter[1]
         );
     });
