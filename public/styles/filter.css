@@ -1,0 +1,7 @@
+.filters {
+    @apply flex flex-wrap gap-2.5 mb-5;
+  }
+  .filters select,
+  .filters input {
+    @apply text-[1em] p-2.5;
+  }

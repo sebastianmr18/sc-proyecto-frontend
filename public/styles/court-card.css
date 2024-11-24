@@ -1,0 +1,45 @@
+/* court-card.css */
+.page-container {
+    @apply max-w-[1200px] mx-auto my-0 p-5;
+  }
+  .page-title {
+    @apply text-center text-[2em] text-[#333] mb-10;
+  }
+  .courts-grid {
+    @apply grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-5;
+  }
+
+  .court-card {
+    @apply flex flex-col border overflow-hidden shadow-[0_4px_8px_rgba(0,0,0,0.1)] transition-transform duration-[0.2s] bg-white p-5 rounded-lg border-solid border-[#ddd];
+  }
+
+  .image-container {
+    @apply w-full h-[200px] overflow-hidden flex items-center justify-center bg-[#f0f0f0];
+    /* fixed height*/
+    /* para ocultar el overflow (desbordamiento)*/
+  }
+  .court-image {
+    @apply w-full h-auto object-cover;
+    /* Para llenar el contenedor*/
+  }
+  .court-info {
+    @apply grow flex flex-col;
+  }
+  .court-name {
+    @apply text-[1.5em] text-[#0070f3] mb-2.5 pt-2.5;
+  }
+  .court-details {
+    @apply text-[#555] mb-2.5;
+  }
+
+  .button-container {
+    @apply flex justify-center mt-auto mb-5; 
+  }
+  
+  .reserve-button {
+    @apply inline-block text-base text-white bg-[#0070f3] rounded cursor-pointer transition-[background-color] duration-[0.2s] text-center px-5 py-2.5 border-[none] hover:bg-[#005bb5];
+  }
+  .reserve-button.disabled {
+    @apply bg-[#ccc] cursor-not-allowed;
+  }
+  
