@@ -65,7 +65,11 @@ const CourtsPage = () => {
             await getCourtsImage();
             setLoading(false);
         }
+
         fetchData();
+        return () => {
+            closeSidebar()
+        }        
     }, []);
 
     const filteredCourts = courts.filter(court => {
