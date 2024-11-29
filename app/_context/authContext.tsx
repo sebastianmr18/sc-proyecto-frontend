@@ -71,8 +71,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             }
         } catch (error) {
             setIsAuthenticated(false);
-            setUser(null);
-            console.error('Error logging in:', error);
+            setUser(null);            
             throw error;
         }
     };

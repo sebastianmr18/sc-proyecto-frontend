@@ -28,16 +28,15 @@ const Login = () => {
         setIsSubmitting(true);
         try {
             await login(formData.email, formData.password);
+            console.clear();
             router.push('/dashboard');
         }
         catch (error) {
             if (error instanceof Error) {
-                setShowErrorMessage(true);
-                console.error('Error de autenticación:', error);
-            } else {
-                console.error('Error desconocido:', error);
+                setShowErrorMessage(true);                
             }
         } finally {
+            console.clear();
             setIsSubmitting(false);
         }
     }
