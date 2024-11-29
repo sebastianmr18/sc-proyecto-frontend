@@ -34,12 +34,7 @@ const CourtsPage = () => {
     const [sportFilter, setSportFilter] = useState("");
     const [priceFilter, setPriceFilter] = useState([0, 200]);
     const [capacityFilter, setCapacityFilter] = useState([0, 50]);
-
-    //const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const { isSidebarOpen, toggleSidebar, closeSidebar } = useSidebarStore();
-    /*const toggleSidebar = () => {
-        setIsSidebarOpen(!isSidebarOpen);
-    };*/
 
     useEffect(() => {
         const getCourts = async () => {
@@ -70,7 +65,7 @@ const CourtsPage = () => {
         return () => {
             closeSidebar()
         }        
-    }, []);
+    }, [closeSidebar]);
 
     const filteredCourts = courts.filter(court => {
         return (

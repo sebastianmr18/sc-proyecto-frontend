@@ -1,5 +1,5 @@
 //Sidebar.js
-import React, { useState } from 'react';
+import React from 'react';
 import Filters, { FilterProps } from './Filters';
 import "@/public/styles/sidebar.css"
 
@@ -11,7 +11,7 @@ interface SidebarProps extends FilterProps {
 
 const Sidebar: React.FC<SidebarProps> = ({
   isOpen,
-  closeSidebar,
+  //closeSidebar,
   toggleSidebar,
   locationFilter,
   setLocationFilter,
