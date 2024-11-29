@@ -1,6 +1,15 @@
 /* court-card.css */
+.layout {
+  @apply flex transition-all duration-[0.3s] ease-[ease];
+}
+
+.sidebar-open .page-container {
+  @apply mx-auto;
+}
+
 .page-container {
-    @apply max-w-[1200px] mx-auto my-0 p-5;
+    /*@apply max-w-[100px] mx-auto my-0 p-5;*/
+    @apply flex-1 transition-[margin-left] duration-[0.3s] ease-[ease] ml-0;
   }
   .page-title {
     @apply text-center text-[2em] text-[#333] mb-10;

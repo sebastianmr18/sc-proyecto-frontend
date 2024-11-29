@@ -1,7 +1,35 @@
 .filters {
-    @apply flex flex-wrap gap-2.5 mb-5;
-  }
-  .filters select,
-  .filters input {
-    @apply text-[1em] p-2.5;
-  }
+  @apply flex flex-wrap gap-5 mb-5 p-5 border bg-[#f9f9f9] rounded-lg shadow-md;
+}
+
+.filter-label {
+  @apply mb-2 text-[1em] font-semibold text-[#333];
+}
+
+.filter-group {
+  @apply gap-6; /* Espaciado limpio entre grupos */
+}
+
+.filter-input {
+  @apply border border-[#ddd] rounded-lg p-2 text-[1em] focus:outline-none focus:ring-2 focus:ring-[#0070f3];
+}
+
+.filter-range {
+  @apply w-full appearance-none h-2 bg-[#ddd] rounded-lg outline-none transition-all duration-200 ease-in-out;
+}
+
+.filter-range::-webkit-slider-thumb {
+  @apply appearance-none w-4 h-4 bg-[#0070f3] rounded-full cursor-pointer;
+}
+
+.filter-range::-moz-range-thumb {
+  @apply w-4 h-4 bg-[#0070f3] rounded-full cursor-pointer;
+}
+
+.filter-price {
+  @apply text-sm text-[#555] mt-1;
+}
+
+.separator {
+  @apply border-t border-gray-300 my-2;
+}

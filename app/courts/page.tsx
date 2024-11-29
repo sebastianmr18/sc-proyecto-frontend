@@ -3,9 +3,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
 import LoadingScreen from "@/app/_components/LoadingScreen";
-import Filters from "./components/Filters";
+import Sidebar from "./components/Sidebar";
 import '@/public/styles/court-card.css';
-import '@/public/styles/filter.css';
 
 const CourtsPage = () => {
     const [courts, setCourts] = useState([
@@ -34,6 +33,11 @@ const CourtsPage = () => {
     const [sportFilter, setSportFilter] = useState("");
     const [priceFilter, setPriceFilter] = useState([0, 200]);
     const [capacityFilter, setCapacityFilter] = useState([0, 50]);
+
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    };
 
     useEffect(() => {
         const getCourts = async () => {
@@ -72,9 +76,10 @@ const CourtsPage = () => {
     if (loading) return <LoadingScreen />;
 
     return (
-        <div className="page-container">
-            <h1 className="page-title">Estas son nuestras canchas sinteticas disponibles</h1>
-            <Filters
+        <div className={`layout ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+            <Sidebar
+                isOpen={isSidebarOpen}
+                toggleSidebar={toggleSidebar}
                 locationFilter={locationFilter}
                 setLocationFilter={setLocationFilter}
                 surfaceTypeFilter={surfaceTypeFilter}
@@ -84,42 +89,45 @@ const CourtsPage = () => {
                 priceFilter={priceFilter}
                 setPriceFilter={setPriceFilter}
                 capacityFilter={capacityFilter}
-                setCapacityFilter={setCapacityFilter}
+                setCapacityFilter={setCapacityFilter}            
             />
+            <div className="page-container">
+                <h1 className="page-title">Estas son nuestras canchas sintéticas disponibles</h1>
+                <div className="courts-grid">
+                    {filteredCourts.length > 0 ? (
+                        filteredCourts.map(court => {
+                            const courtImage = courtsImage.find(image => image.court === court.court_id);
+                            const imageSrc = courtImage ? courtImage.image : '/assets/default-court-image.jpg';
 
-            <div className="courts-grid">
-                {filteredCourts.length > 0 ? (
-                    filteredCourts.map(court => {
-                        const courtImage = courtsImage.find(image => image.court === court.court_id);
-                        const imageSrc = courtImage ? courtImage.image : '/assets/default-court-image.jpg'; // Usar imagen predeterminada si no hay
-
-                        return (
-                        <div key={court.court_id} className="court-card"> 
-                            <div className="image-container">
-                                <Image className="court-image" src={imageSrc} alt="Imagen de la cancha" height={200} width={200} />
-                            </div>
-                            <div className="court-info">
-                                <h2 className="court-name">{court.name}</h2> 
-                                <p className="court-details">Ubicación: {court.location}</p> 
-                                <p className="court-details">Tipo de superficie: {court.surface_type}</p> 
-                                <p className="court-details">Deporte: {court.sport}</p> 
-                                <p className="court-details">Precio por hora: ${court.hourly_rate}</p> 
-                                <p className="court-details">Capacidad: {court.capacity}</p> 
-                                <p className="court-details">Disponibilidad: {court.availability ? "Disponible" : "No disponible"}</p>
-                            </div>
-                            <div className="button-container">
-                                <button 
-                                    className={`reserve-button ${court.availability ? '' : 'disabled'}`}
-                                    disabled={!court.availability}
-                                >Reservar ahora!</button>
-                            </div>
-                        </div>
-                        );
-                    })
+                            return (
+                                <div key={court.court_id} className="court-card"> 
+                                    <div className="image-container">
+                                        <Image className="court-image" src={imageSrc} alt="Imagen de la cancha" height={200} width={200} />
+                                    </div>
+                                    <div className="court-info">
+                                        <h2 className="court-name">{court.name}</h2> 
+                                        <p className="court-details">Ubicación: {court.location}</p> 
+                                        <p className="court-details">Tipo de superficie: {court.surface_type}</p> 
+                                        <p className="court-details">Deporte: {court.sport}</p> 
+                                        <p className="court-details">Precio por hora: ${court.hourly_rate}</p> 
+                                        <p className="court-details">Capacidad: {court.capacity}</p> 
+                                        <p className="court-details">Disponibilidad: {court.availability ? "Disponible" : "No disponible"}</p>
+                                    </div>
+                                    <div className="button-container">
+                                        <button 
+                                            className={`reserve-button ${court.availability ? '' : 'disabled'}`}
+                                            disabled={!court.availability}
+                                        >
+                                            Reservar ahora!
+                                        </button>
+                                    </div>
+                                </div>
+                            );
+                        })
                     ) : (
                         <p>No hay canchas disponibles</p>
-                    )
-                }
+                    )}
+                </div>
             </div>
         </div>
     );

@@ -1,0 +1,12 @@
+/* sidebar.css */
+.sidebar {
+  @apply w-0 bg-[#333] text-[white] overflow-hidden h-screen fixed transition-all duration-[0.3s] ease-[ease] z-[1000];
+}
+
+.sidebar.open {
+  @apply w-[250px];
+}
+
+.toggle-button {
+  @apply w-0 bg-[#444] text-[white] cursor-pointer w-auto fixed text-left p-2.5 border-[none];
+}
