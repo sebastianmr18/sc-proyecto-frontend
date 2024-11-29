@@ -1,0 +1,36 @@
+/* Nuevo estilo para el footer */
+.footer {
+  background: linear-gradient(to right, #0097A7, #00695C);
+  @apply p-6 shadow-lg mt-auto text-white;
+  transition: margin-left 0.3s ease; /* Transición para el desplazamiento */
+}
+
+.footer-shifted {
+  margin-left: 250px; /* Desplazamiento a la derecha cuando la Sidebar esté abierta */
+}
+  
+  .footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .footer-text {
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  
+  .social-icons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .social-icon {
+    color: white;
+    transition: color 0.3s ease;
+  }
+  
+  .social-icon:hover {
+    color: #ffdd57;
+  }
+  

@@ -1,0 +1,27 @@
+.header-container {
+  @apply w-full bg-gradient-to-r from-[#0070f3] to-[#005bb5] text-[#fff] shadow-md sticky top-0 z-50;
+}
+
+.header {
+  @apply flex items-center justify-between py-4 px-8;
+}
+
+.header-content {
+  @apply flex flex-col md:flex-row items-center justify-between w-full;
+}
+
+.header-title {
+  @apply text-3xl font-bold;
+}
+
+.header-nav {
+  @apply flex flex-col md:flex-row gap-4 mt-4 md:mt-0;
+}
+
+.nav-link {
+  @apply text-lg font-medium transition-all duration-300;
+}
+
+.nav-link:hover {
+  @apply text-[#ffdd57];
+}

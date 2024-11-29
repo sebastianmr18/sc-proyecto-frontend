@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
 import LoadingScreen from "@/app/_components/LoadingScreen";
+import useSidebarStore from "../globals/SidebarState";
 import Sidebar from "./components/Sidebar";
 import '@/public/styles/court-card.css';
 
@@ -34,10 +35,11 @@ const CourtsPage = () => {
     const [priceFilter, setPriceFilter] = useState([0, 200]);
     const [capacityFilter, setCapacityFilter] = useState([0, 50]);
 
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-    const toggleSidebar = () => {
+    //const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const { isSidebarOpen, toggleSidebar, closeSidebar } = useSidebarStore();
+    /*const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
-    };
+    };*/
 
     useEffect(() => {
         const getCourts = async () => {
@@ -69,7 +71,10 @@ const CourtsPage = () => {
     const filteredCourts = courts.filter(court => {
         return (
             (!locationFilter || court.location.toLowerCase().includes(locationFilter.toLowerCase())) &&
-            court.hourly_rate >= priceFilter[0] && court.hourly_rate <= priceFilter[1]
+            court.surface_type.toLowerCase().includes(surfaceTypeFilter.toLowerCase()) &&
+            court.hourly_rate >= priceFilter[0] && court.hourly_rate <= priceFilter[1] &&
+            court.capacity >= capacityFilter[0] && court.capacity <= capacityFilter[1] &&
+            court.sport.toLowerCase().includes(sportFilter.toLowerCase())
         );
     });
 
@@ -79,6 +84,7 @@ const CourtsPage = () => {
         <div className={`layout ${isSidebarOpen ? 'sidebar-open' : ''}`}>
             <Sidebar
                 isOpen={isSidebarOpen}
+                closeSidebar={closeSidebar}
                 toggleSidebar={toggleSidebar}
                 locationFilter={locationFilter}
                 setLocationFilter={setLocationFilter}

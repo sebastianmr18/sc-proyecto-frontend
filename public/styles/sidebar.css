@@ -1,12 +1,29 @@
 /* sidebar.css */
+/* Nuevo estilo para la sidebar */
 .sidebar {
-  @apply w-0 bg-[#333] text-[white] overflow-hidden h-screen fixed transition-all duration-[0.3s] ease-[ease] z-[1000];
+  @apply w-0 bg-gradient-to-r from-[#d6dbdf] to-[#a6acaf] text-[#333] overflow-hidden h-screen fixed transition-all duration-[0.3s] ease-[ease] z-[1000] shadow-lg;
 }
 
 .sidebar.open {
   @apply w-[250px];
 }
 
+@media (max-width: 768px) {
+  .sidebar {
+    @apply fixed left-0 top-0 h-full z-[1100];
+    width: 0;
+  }
+
+  .sidebar.open {
+    @apply w-[250px];
+  }
+}
+
+/* Estilo para el botón de toggle */
 .toggle-button {
-  @apply w-0 bg-[#444] text-[white] cursor-pointer w-auto fixed text-left p-2.5 border-[none];
+  @apply bg-[#a6acaf] text-[white] cursor-pointer fixed text-left p-2.5 border-[none] rounded-full shadow-lg transition-all duration-300;
+}
+
+.toggle-button:hover {
+  @apply bg-[#85929e];
 }

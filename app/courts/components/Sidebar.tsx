@@ -5,11 +5,13 @@ import "@/public/styles/sidebar.css"
 
 interface SidebarProps extends FilterProps {
   isOpen: boolean;
+  closeSidebar: () => void;
   toggleSidebar: () => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
   isOpen,
+  closeSidebar,
   toggleSidebar,
   locationFilter,
   setLocationFilter,
@@ -23,10 +25,10 @@ const Sidebar: React.FC<SidebarProps> = ({
   setCapacityFilter,
 }) => {
   return (
-    <div>
+    <div className="flex">
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className="flex flex-col items-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Filtros</h2>
+          <h2 className="text-2xl font-bold text-black mb-4 mt-4">Filtros</h2>
           <Filters
             locationFilter={locationFilter}
             setLocationFilter={setLocationFilter}
@@ -41,7 +43,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           />
         </div>
       </div>
-      <div className={`flex-1 p-4 ${isOpen ? 'ml-64' : 'ml-0'}`}>
+      <div className={`flex-1 p-4 transition-all duration-300 ${isOpen ? 'ml-64' : 'ml-0'}`}>
         <div className="ml-auto">
           <button onClick={toggleSidebar} className="toggle-button">
             {isOpen ? (
@@ -57,7 +59,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         </div>
       </div>
     </div>
-  );
-};
+  );  
+}  
 
 export default Sidebar;
