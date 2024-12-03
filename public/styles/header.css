@@ -18,6 +18,10 @@
   @apply flex flex-col md:flex-row gap-4 mt-4 md:mt-0;
 }
 
+.nav-text {
+  @apply text-lg font-medium;
+}
+
 .nav-link {
   @apply text-lg font-medium transition-all duration-300;
 }

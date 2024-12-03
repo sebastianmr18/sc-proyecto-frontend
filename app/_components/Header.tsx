@@ -41,7 +41,7 @@ const Header = () => {
                                 ) : null                  
                             ) : (
                                 <>
-                                    <span>Welcome! {user?.first_name}</span>
+                                    <span className='nav-text'>Bienvenido {user?.first_name}</span>
                                     <li>
                                         <Link href="/profile"
                                             className="nav-link">
