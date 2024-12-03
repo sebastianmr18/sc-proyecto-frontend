@@ -8,7 +8,7 @@ const Header = () => {
     const { isAuthenticated, user, logout} = useAuth();
     const pathname = usePathname();
 
-    const hideLoginRegisterButton = ['/login', '/register']
+    const hideLoginRegisterButton = ['/login', '/register', '/not-registered'];
 
     const showLoginRegisterButton = !hideLoginRegisterButton.includes(pathname);
 
