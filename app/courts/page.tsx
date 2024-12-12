@@ -5,6 +5,7 @@ import Image from "next/image";
 import LoadingScreen from "@/app/_components/LoadingScreen";
 import useSidebarStore from "../globals/SidebarState";
 import Sidebar from "./components/Sidebar";
+import { useRouter} from "next/navigation";
 import '@/public/styles/court-card.css';
 
 const CourtsPage = () => {
@@ -34,8 +35,12 @@ const CourtsPage = () => {
     const [sportFilter, setSportFilter] = useState("");
     const [priceFilter, setPriceFilter] = useState([0, 200]);
     const [capacityFilter, setCapacityFilter] = useState([0, 50]);
-    const { isSidebarOpen, toggleSidebar, closeSidebar } = useSidebarStore();
+    const { isSidebarOpen, toggleSidebar, closeSidebar } = useSidebarStore();    
+    const router = useRouter();
 
+    const handleReserveCourt = (court_id: any) => {        
+        router.push(`/reserve/${court_id}`);        
+    }
     useEffect(() => {
         const getCourts = async () => {
             try {
@@ -98,6 +103,7 @@ const CourtsPage = () => {
             />
             <div className="page-container">
                 <h1 className="page-title">Estas son nuestras canchas sintéticas disponibles</h1>
+                <p className="page-subtitle">A la izquierda encontrarás los filtros para buscar la cancha que más se ajuste a tus necesidades.</p>
                 <div className="courts-grid">
                     {filteredCourts.length > 0 ? (
                         filteredCourts.map(court => {
@@ -111,19 +117,20 @@ const CourtsPage = () => {
                                     </div>
                                     <div className="court-info">
                                         <h2 className="court-name">{court.name}</h2> 
-                                        <p className="court-details">Ubicación: {court.location}</p> 
-                                        <p className="court-details">Tipo de superficie: {court.surface_type}</p> 
-                                        <p className="court-details">Deporte: {court.sport}</p> 
-                                        <p className="court-details">Precio por hora: ${court.hourly_rate}</p> 
-                                        <p className="court-details">Capacidad: {court.capacity}</p> 
-                                        <p className="court-details">Disponibilidad: {court.availability ? "Disponible" : "No disponible"}</p>
+                                        <p className="court-details"><b>Ubicación:</b> {court.location}</p> 
+                                        <p className="court-details"><b>Tipo de superficie:</b> {court.surface_type}</p> 
+                                        <p className="court-details"><b>Deporte:</b> {court.sport}</p> 
+                                        <p className="court-details"><b>Precio por hora:</b> ${court.hourly_rate}</p> 
+                                        <p className="court-details"><b>Capacidad:</b> {court.capacity}</p> 
+                                        <p className="court-details"><b>Disponibilidad:</b> {court.availability ? "Disponible" : "No disponible"}</p>
                                     </div>
                                     <div className="button-container">
                                         <button 
                                             className={`reserve-button ${court.availability ? '' : 'disabled'}`}
                                             disabled={!court.availability}
+                                            onClick={() => handleReserveCourt(court.court_id)}                                                                           
                                         >
-                                            Reservar ahora!
+                                            {court.availability ? 'Reservar ahora!' : 'No disponible :('}
                                         </button>
                                     </div>
                                 </div>

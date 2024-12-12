@@ -20,6 +20,7 @@ const Profile = () => {
             <Image src={user.profile_picture || '/assets/default-avatar.jpg'} alt="Profile" height={200} width={200} />
             <p>Name: {user.first_name} {user.last_name}</p>
             <p>Email: {user.email}</p>
+            <p>ID: {user.user_id}</p>
             {/* Agrega otros campos aquí */}
         </div>
     );
