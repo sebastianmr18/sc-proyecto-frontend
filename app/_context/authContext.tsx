@@ -16,7 +16,7 @@ interface AuthContextType {
 }
 
 interface User {
-    id: number;
+    user_id: number;
     first_name: string;
     last_name: string;
     email: string;
@@ -34,11 +34,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     useEffect(() => {
         const storedAccessToken = Cookies.get("accessToken");
-        const storedUser = Cookies.get("user");
+        const storedUser = Cookies.get("user");        
 
         if (storedUser && storedAccessToken) {
             setIsAuthenticated(true);
-            setUser(JSON.parse(storedUser));
+            setUser(JSON.parse(storedUser));            
         }
         //setLoading(false);
     }, []);
