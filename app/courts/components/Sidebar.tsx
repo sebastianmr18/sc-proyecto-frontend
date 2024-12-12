@@ -2,6 +2,8 @@
 import React from 'react';
 import Filters, { FilterProps } from './Filters';
 import "@/public/styles/sidebar.css"
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css';
 
 interface SidebarProps extends FilterProps {
   isOpen: boolean;
@@ -25,6 +27,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   setCapacityFilter,
 }) => {
   return (
+    <>
     <div className="flex">
       <div className={`sidebar ${isOpen ? 'open' : ''}`}>
         <div className="flex flex-col items-center">
@@ -45,20 +48,28 @@ const Sidebar: React.FC<SidebarProps> = ({
       </div>
       <div className={`flex-1 p-4 transition-all duration-300 ${isOpen ? 'ml-64' : 'ml-0'}`}>
         <div className="ml-auto">
-          <button onClick={toggleSidebar} className="toggle-button">
-            {isOpen ? (
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            ) : (
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
-              </svg>
-            )}
-          </button>
+          <Tippy 
+            content={isOpen ? 'Ocultar filtros' : 'Mostrar filtros'}
+            placement='right'
+            arrow={true}
+            offset={[0, 10]}
+            >
+            <button onClick={toggleSidebar} className="toggle-button hover:bg-blue-400">
+              {isOpen ? (
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+              )}            
+            </button>
+          </Tippy>          
         </div>
       </div>
-    </div>
+    </div>    
+    </>
   );  
 }  
 
