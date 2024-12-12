@@ -15,7 +15,7 @@ export async function GET(request: Request, {params}: {params: { court_id: any}}
                 'Content-Type': 'application/json',
             },
         });
-    } catch (error: unknown) {
+    } catch {
         return new Response(JSON.stringify({ error: 'Failed to fetch court' }), { status: 500 });
     }
 }
