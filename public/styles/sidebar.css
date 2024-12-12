@@ -23,7 +23,3 @@
 .toggle-button {
   @apply bg-[#a6acaf] text-[white] cursor-pointer fixed text-left p-2.5 border-[none] rounded-full shadow-lg transition-all duration-300;
 }
-
-.toggle-button:hover {
-  @apply bg-[#85929e];
-}
