@@ -76,7 +76,7 @@ const ReserveCourtPage = ({ params }: { params: { court_id: any } }) => {
             // Paso 1: Crear reserva
             const reservationResponse = await axios.post('/api/reservations', reservation_data)
             const reservationId = reservationResponse.data.reservation_id;
-            console.log("Reserva creada exitosamente:", reservationResponse.data);
+                       
 
             const payment_load = {
                 ...payment_data,
@@ -84,20 +84,14 @@ const ReserveCourtPage = ({ params }: { params: { court_id: any } }) => {
             }
 
             // Paso 2: Crear pago
-            const paymentResponse = await axios.post('/api/payments', payment_load);
-            console.log("Pago creado exitosamente:", paymentResponse.data);
-
+            const paymentResponse = await axios.post('/api/payments', payment_load);            
             toast.success("Reserva y pago creados exitosamente!");            
 
         } catch (error: any) {
-            if (axios.isAxiosError(error)) {
-                console.error("Error de Axios:", error.response?.data || error.message);
-            } else {
-                console.error("Error desconocido:", error);
-            }
             toast.error("Parece que este horario ya esta reservado. Intenta con otro!");                        
         } finally {
             setIsSubmitting(false);        
+            
         }
     };
 

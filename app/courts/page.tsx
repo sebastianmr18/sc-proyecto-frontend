@@ -44,8 +44,7 @@ const CourtsPage = () => {
     useEffect(() => {
         const getCourts = async () => {
             try {
-                const response = await axios.get("/api/courts");
-                console.log(response.data);
+                const response = await axios.get("/api/courts");                
                 setCourts(response.data);
             } catch (error) {
                 console.error("Error al obtener las canchas", error);
@@ -53,11 +52,10 @@ const CourtsPage = () => {
         }
         const getCourtsImage = async () => {
             try {
-                const response = await axios.get("/api/court_images");
-                console.log(response.data);
+                const response = await axios.get("/api/court_images");                
                 setCourtsImage(response.data);
-            } catch (error) {
-                console.error("Error al obtener las imagenes de las canchas", error);
+            } catch (error) {                   
+                console.error("Error al obtener las imágenes de las canchas", error);             
             }
         }
         const fetchData = async () => {
@@ -72,7 +70,7 @@ const CourtsPage = () => {
         }        
     }, [closeSidebar]);
 
-    const filteredCourts = courts.filter(court => {
+    const filteredCourts = Array.isArray(courts) ? courts.filter(court => {        
         return (
             (!locationFilter || court.location.toLowerCase().includes(locationFilter.toLowerCase())) &&
             court.surface_type.toLowerCase().includes(surfaceTypeFilter.toLowerCase()) &&
@@ -80,7 +78,8 @@ const CourtsPage = () => {
             court.capacity >= capacityFilter[0] && court.capacity <= capacityFilter[1] &&
             court.sport.toLowerCase().includes(sportFilter.toLowerCase())
         );
-    });
+    }) : [];
+    
 
     if (loading) return <LoadingScreen />;
 
@@ -103,42 +102,39 @@ const CourtsPage = () => {
             />
             <div className="page-container">
                 <h1 className="page-title">Estas son nuestras canchas sintéticas disponibles</h1>
-                <p className="page-subtitle">A la izquierda encontrarás los filtros para buscar la cancha que más se ajuste a tus necesidades.</p>
-                <div className="courts-grid">
-                    {filteredCourts.length > 0 ? (
-                        filteredCourts.map(court => {
-                            const courtImage = courtsImage.find(image => image.court === court.court_id);
-                            const imageSrc = courtImage ? courtImage.image : '/assets/default-court-image.jpg';
+                {filteredCourts.length > 0 ? (<p className="page-subtitle">A la izquierda encontrarás los filtros para buscar la cancha que más se ajuste a tus necesidades.</p>)
+                : (<p className="page-subtitle">No hay canchas disponibles</p>)}
+                <div className="courts-grid">                    
+                    {filteredCourts.map(court => {
+                        const courtImage = courtsImage.find(image => image.court === court.court_id);
+                        const imageSrc = courtImage ? courtImage.image : '/assets/default-court-image.jpg';
 
-                            return (
-                                <div key={court.court_id} className="court-card"> 
-                                    <div className="image-container">
-                                        <Image className="court-image" src={imageSrc} alt="Imagen de la cancha" height={200} width={200} />
-                                    </div>
-                                    <div className="court-info">
-                                        <h2 className="court-name">{court.name}</h2> 
-                                        <p className="court-details"><b>Ubicación:</b> {court.location}</p> 
-                                        <p className="court-details"><b>Tipo de superficie:</b> {court.surface_type}</p> 
-                                        <p className="court-details"><b>Deporte:</b> {court.sport}</p> 
-                                        <p className="court-details"><b>Precio por hora:</b> ${court.hourly_rate}</p> 
-                                        <p className="court-details"><b>Capacidad:</b> {court.capacity}</p> 
-                                        <p className="court-details"><b>Disponibilidad:</b> {court.availability ? "Disponible" : "No disponible"}</p>
-                                    </div>
-                                    <div className="button-container">
-                                        <button 
-                                            className={`reserve-button ${court.availability ? '' : 'disabled'}`}
-                                            disabled={!court.availability}
-                                            onClick={() => handleReserveCourt(court.court_id)}                                                                           
-                                        >
-                                            {court.availability ? 'Reservar ahora!' : 'No disponible :('}
-                                        </button>
-                                    </div>
+                        return (
+                            <div key={court.court_id} className="court-card"> 
+                                <div className="image-container">
+                                    <Image className="court-image" src={imageSrc} alt="Imagen de la cancha" height={200} width={200} />
                                 </div>
-                            );
-                        })
-                    ) : (
-                        <p>No hay canchas disponibles</p>
-                    )}
+                                <div className="court-info">
+                                    <h2 className="court-name">{court.name}</h2> 
+                                    <p className="court-details"><b>Ubicación:</b> {court.location}</p> 
+                                    <p className="court-details"><b>Tipo de superficie:</b> {court.surface_type}</p> 
+                                    <p className="court-details"><b>Deporte:</b> {court.sport}</p> 
+                                    <p className="court-details"><b>Precio por hora:</b> ${court.hourly_rate}</p> 
+                                    <p className="court-details"><b>Capacidad:</b> {court.capacity}</p> 
+                                    <p className="court-details"><b>Disponibilidad:</b> {court.availability ? "Disponible" : "No disponible"}</p>
+                                </div>
+                                <div className="button-container">
+                                    <button 
+                                        className={`reserve-button ${court.availability ? '' : 'disabled'}`}
+                                        disabled={!court.availability}
+                                        onClick={() => handleReserveCourt(court.court_id)}                                                                           
+                                    >
+                                        {court.availability ? 'Reservar ahora!' : 'No disponible :('}
+                                    </button>
+                                </div>
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </div>

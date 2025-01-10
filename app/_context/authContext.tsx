@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 interface AuthContextType {
     user: User | null;
     fetchUserProfile: () => Promise<void>;
+    updateUserProfile: (updatedData: any) => Promise<void>;
     login: (email: string, password: string) => Promise<void>;
     logout: () => void;
     isAuthenticated: boolean;
@@ -16,10 +17,14 @@ interface AuthContextType {
 }
 
 interface User {
+    email: string;
     user_id: number;
     first_name: string;
+    middle_name?: string;
     last_name: string;
-    email: string;
+    second_last_name?: string;
+    contact_number?: string;
+    address?: string;
     profile_picture?: string;
 }
 
@@ -87,7 +92,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const fetchUserProfile = async () => {
         try {
-            const token = Cookies.get('storedAccessToken');
+            const token = Cookies.get('accessToken');            
             if (token) {
                 const response = await axios.get(`${NEXT_PUBLIC_URL}/auth/users/me/`, {
                     headers: { Authorization: `Bearer ${token}` }
@@ -102,9 +107,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
+    const updateUserProfile = async (updatedData: any) => {
+        try {
+            const token = Cookies.get("accessToken");             
+            if (token) {
+                const response = await axios.put(`${NEXT_PUBLIC_URL}/auth/users/me/`, updatedData,
+                    {headers: {Authorization: `Bearer ${token}`}
+                });
+                console.log(response)
+                setUser(response.data);
+                setIsAuthenticated(true);
+                Cookies.set("user", JSON.stringify(response.data));
+            } else {
+                throw new Error('No hay token para actualizar el perfil');
+            }
+        } catch (error) {
+            console.error('Failed to update user profile', error);            
+        }
+    };
+
 
     return (
-        <AuthContext.Provider value={{ user, fetchUserProfile, login, logout, isAuthenticated, setIsAuthenticated }}>
+        <AuthContext.Provider value={{ user, fetchUserProfile, updateUserProfile, login, logout, isAuthenticated, setIsAuthenticated }}>
             {children}
         </AuthContext.Provider>
     );

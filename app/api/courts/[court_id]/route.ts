@@ -20,8 +20,7 @@ export async function GET(request: Request, {params}: {params: { court_id: any}}
     }
 }
 
-async function getCourt(court_id: any) {
-    console.log(court_id);
+async function getCourt(court_id: any) {    
     const NEXT_PUBLIC_URL = process.env.NEXT_PUBLIC_URL;
     try {
         const response = await axios.get(`${NEXT_PUBLIC_URL}/api/courts/${court_id}`);
