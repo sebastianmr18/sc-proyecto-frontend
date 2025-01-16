@@ -5,6 +5,8 @@ import { useAuth } from '@/app/_context/authContext';
 import withAuth from '@/app/_utils/withAuth';
 import Image from 'next/image';
 import axios from 'axios';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const Profile = ({ params }: { params: { user_id: any } }) => {
     const { user, fetchUserProfile, updateUserProfile } = useAuth();
@@ -23,6 +25,7 @@ const Profile = ({ params }: { params: { user_id: any } }) => {
     const [reservations, setReservations] = useState<any[]>([]);
     const [courts, setCourts] = useState<any[]>([]);
     const [reservationsLoaded, setReservationsLoaded] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {       
         const getCourts = async () => {
@@ -109,6 +112,10 @@ const Profile = ({ params }: { params: { user_id: any } }) => {
         } catch (error) {
             console.error('Error updating profile', error);
         }        
+    }
+
+    const handleReviewButton = (court_id: any) => {
+        router.push(`/review/${court_id}`);
     }
 
     if (!user) return <p>Loading...</p>;
@@ -249,7 +256,7 @@ const Profile = ({ params }: { params: { user_id: any } }) => {
                         <a href="/courts" className="text-blue-500 underline">Haz una reserva aquí</a>
                     </div>                    
                 ) : (
-                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2">
                     {reservations
                     .sort((b, a) => new Date(a.start_datetime).getTime() - new Date(b.start_datetime).getTime())
                     .map((reservation: any) => {
@@ -288,12 +295,20 @@ const Profile = ({ params }: { params: { user_id: any } }) => {
                                                     </button>
                                                 </div>
                                             : <>
+                                                <div className='mt-4 flex gap-2'>
                                                     <button
-                                                        className="mt-4 w-full bg-gray-500 text-white px-4 py-2 rounded-lg"
+                                                        className="flex-1 bg-gray-500 text-white px-4 py-2 rounded-lg"
                                                         disabled
                                                     >
                                                         Reserva vencida
                                                     </button>
+                                                    <button
+                                                        className='flex-1 bg-orange-500 text-white px-4 py-2 rounded-lg'                                                        
+                                                        onClick={handleReviewButton.bind(null, reservation.court)}
+                                                    >
+                                                        Calificar
+                                                    </button>
+                                                </div>                                                    
                                                 </>}
                                         </div>
                                     </div>
