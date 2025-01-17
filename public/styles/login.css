@@ -6,7 +6,7 @@
 /* Login.css */
 .login-container {
   @apply min-h-screen flex items-center justify-center p-8;
-  background: linear-gradient(to bottom right, #46a4d6, #2e7add);
+  background: linear-gradient(to bottom right, #42A5F5, #1E88E5);
 }
 .login-wrapper {
   @apply max-w-md w-full;

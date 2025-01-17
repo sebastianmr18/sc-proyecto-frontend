@@ -47,7 +47,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         </div>
       </div>
       <div className={`flex-1 p-4 transition-all duration-300 ${isOpen ? 'ml-64' : 'ml-0'}`}>
-        <div className="ml-auto">
+        <div className="ml-auto p-10 m-8">
           <Tippy 
             content={isOpen ? 'Ocultar filtros' : 'Mostrar filtros'}
             placement='right'
