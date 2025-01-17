@@ -1,0 +1,62 @@
+/*
+  Based on TailwindCSS recommendations,
+  consider using classes instead of the `@apply` directive
+  @see https://tailwindcss.com/docs/reusing-styles#avoiding-premature-abstraction
+*/
+/* user_registration.css */
+body {
+    @apply items-center justify-center min-h-screen overflow-x-hidden m-0 p-0;
+    background: linear-gradient(to bottom right, #46a4d6, #2e7add);
+  }
+  .form-container {
+    @apply w-full max-w-[500px] shadow-[0px_8px_15px_rgba(0,0,0,0.1)] overflow-hidden animate-[slide-in_0.5s_ease-in-out] mx-auto my-0 rounded-xl;
+    background: white;
+  }
+  @keyframes slide-in {
+    from {
+      @apply -translate-y-5 opacity-0;
+    }
+    to {
+      @apply translate-y-0 opacity-100;
+    }
+  }
+  .form-card {
+    @apply p-8;
+  }
+  .form-title {
+    @apply text-[1.8rem] font-bold text-center text-[#4a4a4a];
+  }
+  .form-subtitle {
+    @apply text-center text-neutral-500 mt-2 mb-6 mx-0;
+  }
+  .form {
+    @apply flex flex-col gap-[1.2rem];
+  }
+  .form-group {
+    @apply flex flex-col gap-[0.4rem];
+  }
+  .form-label {
+    @apply text-[0.9rem] text-[#555];
+  }
+  .form-input {
+    @apply text-base border transition-all duration-[0.3s] ease-[ease] px-4 py-3 rounded-lg border-solid border-[#ddd] focus:border-[#6e8efb];
+    background: #f9f9f9;
+  }
+  .form-input:focus {
+    outline: none;
+    background: #fff;
+  }
+  .form-error {
+    @apply text-[#e74c3c] text-[0.85rem] text-center;
+  }
+  .form-button {
+    @apply text-base font-[bold] text-center text-[white] cursor-pointer transition-all duration-[0.3s] ease-[ease] p-3 rounded-lg border-[none] disabled:cursor-not-allowed;
+    background: #6e8efb;
+  }
+  .form-button:hover {
+    background: #a777e3;
+  }
+  .form-button:disabled {
+    background: #ccc;
+  }
+  

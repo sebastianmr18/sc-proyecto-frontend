@@ -1,36 +1,23 @@
-/* Nuevo estilo para el footer */
 .footer {
-  background: linear-gradient(to right, #0097A7, #00695C);
-  @apply p-6 shadow-lg mt-auto text-white;
-  transition: margin-left 0.3s ease; /* Transición para el desplazamiento */
+  @apply text-[white] relative flex justify-center items-center flex-col transition-all duration-[0.3s] ease-[ease] px-4 py-8;
+  background: #2c2c54;
 }
-
-.footer-shifted {
-  margin-left: 250px; /* Desplazamiento a la derecha cuando la Sidebar esté abierta */
+.footer-container {
+  @apply flex flex-col items-center gap-4 w-full max-w-[1200px];
 }
-  
-  .footer-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .footer-text {
-    margin-bottom: 1rem;
-    text-align: center;
-  }
-  
-  .social-icons {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .social-icon {
-    color: white;
-    transition: color 0.3s ease;
-  }
-  
-  .social-icon:hover {
-    color: #ffdd57;
-  }
-  
+.footer-brand {
+  @apply text-center text-[0.9rem] text-[#b8b8d2];
+}
+.footer-links {
+  @apply flex gap-4 justify-center;
+}
+.footer-link {
+  @apply text-[0.9rem] text-[#6e8efb] no-underline transition-[color] duration-[0.3s] ease-[ease] hover:text-[#a777e3];
+}
+.footer-social {
+  @apply flex gap-[0.8rem] justify-center;
+}
+.social-icon {
+  @apply text-[#b8b8d2] hover:text-[#6e8efb] hover:scale-110;
+  transition: color 0.3s ease, transform 0.3s ease;
+}

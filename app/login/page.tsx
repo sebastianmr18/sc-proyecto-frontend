@@ -2,9 +2,9 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/app/_context/authContext';
-import Link from 'next/link';
 import { withAuthRedirect } from '@/app/_utils/withAuthRedirect';
-import '@/public/styles/form.css';
+import '@/public/styles/login.css';
+import { Mail, Lock, Loader, ArrowRight } from 'lucide-react';
 
 const Login = () => {
     const { login } = useAuth();
@@ -43,73 +43,124 @@ const Login = () => {
 
     const isValidForm = () => {
         return formData.email !== '' && formData.password !== '';
-    };
-
-    
-
-    return (
-        <div className='form-container'>
-            <h1 className='welcome-message'>
-                Bienvenido de nuevo!
-            </h1>
-            <form onSubmit={handleSubmit} className='space-y-6'>
-                {/* Email */}
-                <div className='w-full'>
-                    <label
-                        htmlFor="email"
-                        className="label-input">
+    };    
+        return (
+          <div className="login-container">
+            <div className="login-wrapper">
+              {/* Card del formulario */}
+              <div className="login-card">
+                {/* Header */}
+                <div className="login-header">
+                  <h1 className="login-title">¡Bienvenido de nuevo!</h1>
+                  <p className="login-subtitle">Ingresa tus credenciales para continuar</p>
+                </div>
+      
+                {/* Formulario */}
+                <div className="login-form-container">
+                  <form onSubmit={handleSubmit} className="login-form">
+                    {/* Email */}
+                    <div className="form-group">
+                      <label htmlFor="email" className="form-label">
                         Correo Electrónico
-                    </label>
-                    <input
-                        type='email'
-                        name='email'
-                        value={formData.email}
-                        onChange={handleChange}
-                        disabled={isSubmitting}
-                        className='input-field'
-                        required
-                    />
-                </div>
-                {/* Contraseña */}
-                <div className='w-full'>
-                    <label
-                        htmlFor="password"
-                        className="label-input">
+                      </label>
+                      <div className="input-wrapper">
+                        <div className="input-icon">
+                          <Mail className="icon" />
+                        </div>
+                        <input
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          disabled={isSubmitting}
+                          className="input-field"
+                          placeholder="tu@email.com"
+                          required
+                        />
+                      </div>
+                    </div>
+      
+                    {/* Contraseña */}
+                    <div className="form-group">
+                      <label htmlFor="password" className="form-label">
                         Contraseña
-                    </label>
-                    <input
-                        type='password'
-                        name='password'
-                        value={formData.password}
-                        onChange={handleChange}
-                        disabled={isSubmitting}
-                        className='input-field'
-                        required
-                    />
-                </div>
-                {/* Error Message */}
-                {showErrorMessage && (
-                    <p className="error-message">
-                        {'Email o contraseña incorrectos'}
+                      </label>
+                      <div className="input-wrapper">
+                        <div className="input-icon">
+                          <Lock className="icon" />
+                        </div>
+                        <input
+                          type="password"
+                          name="password"
+                          value={formData.password}
+                          onChange={handleChange}
+                          disabled={isSubmitting}
+                          className="input-field"
+                          placeholder="••••••••"
+                          required
+                        />
+                      </div>
+                    </div>
+      
+                    {/* Error Message */}
+                    {showErrorMessage && (
+                      <div className="error-message">
+                        <div className="error-icon">
+                          <svg className="icon-error" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                        <div className="error-text">
+                          <p>Email o contraseña incorrectos</p>
+                        </div>
+                      </div>
+                    )}
+      
+                    {/* Submit Button */}
+                    <button
+                      type="submit"
+                      disabled={isValidForm() && isSubmitting}
+                      className="submit-button"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <Loader className="loader" />
+                          <span>Cargando...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Iniciar sesión</span>
+                          <ArrowRight className="arrow-icon" />
+                        </>
+                      )}
+                    </button>
+                  </form>
+      
+                  {/* Register Link */}
+                  <div className="register-link">
+                    <p>
+                      ¿No tienes cuenta?{' '}
+                      <button
+                        onClick={() => window.location.href = '/register'}
+                        className="link-button"
+                      >
+                        Regístrate aquí
+                      </button>
                     </p>
-                )}
-                {/* Submit Button */}
-                <button
-                    type="submit"
-                    disabled={isValidForm() && isSubmitting}
-                    className='submit-button'
-                >{isSubmitting ? 'Cargando...' : 'Iniciar sesión'}</button>
-            </form>
-                {/* Register Link */}
-                <p className="text-center pt-6">
-                    ¿No tienes cuenta?  
-                    <Link href="/register" className="text-blue-500 underline hover:text-blue-700">
-                        Regístrate
-                    </Link>
-                </p>
-        </div>
-    )
-}
-
-
-export default withAuthRedirect(Login);
+                  </div>
+                </div>
+              </div>
+      
+              {/* Footer */}
+              <p className="login-footer">
+                Al iniciar sesión, aceptas nuestros{' '}
+                <button onClick={() => window.location.href = '/terms'} className="link-button">
+                  términos y condiciones
+                </button>
+              </p>
+            </div>
+          </div>
+        );
+    };
+    
+    export default withAuthRedirect(Login);
