@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import withAuth from '@/app/_utils/withAuth';
 import { useAuth } from '@/app/_context/authContext';
-import { comment } from 'postcss';
+import toast, { Toaster } from 'react-hot-toast';
 
 const ReviewCourtPage = ({ params }: { params: { court_id: any } }) => {
     const [reviews, setReviews] = useState<any[]>([]);
@@ -16,6 +16,7 @@ const ReviewCourtPage = ({ params }: { params: { court_id: any } }) => {
 
     const fetchReviews = async () => {
         try {
+            setReviews([]);
             const response = await axios.get(`/api/reviews/`);
             const reviews = response.data;
             reviews.forEach((review: any) => {
@@ -38,39 +39,31 @@ const ReviewCourtPage = ({ params }: { params: { court_id: any } }) => {
             rating: rating,
             comment: newReview,
             user: user?.user_id,
-            court: court?.court_id
+            court: params.court_id
         }
         console.log("Review data:", review_data);
 
         try {
             const response = await axios.post(`/api/reviews/`, review_data);
             console.log("Review submitted:", response.data);
+            toast.success("Review subida exitosamente!");
+            setTimeout(() => {
+                location.reload();
+            }, 1500)
         } catch (error) {
             console.error("Error submitting review:", error);
+            toast.error("Hubo un error al subir la review");
         }
+        setIsSubmitting(false);
     }
 
     const handleLoadReviews = async () => {
         await fetchReviews();
     }
-/*
-    const handleReviewSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post(`/api/reviews/${params.court_id}`, {
-                review: newReview,
-                rating: rating,
-            });
-            setReviews([...reviews, response.data]);
-            setNewReview('');
-            setRating(0);
-        } catch (error) {
-            console.error("Error submitting review:", error);
-        }
-    };
-*/
+
     return (
         <div className="container mx-auto p-4">
+            <Toaster />
             <h1 className="text-2xl font-bold mb-4">Califica tu experiencia en nuestras canchas!</h1>
             <div className="mb-6">
                 <form onSubmit={handleReviewSubmit} className="space-y-4">
@@ -80,6 +73,7 @@ const ReviewCourtPage = ({ params }: { params: { court_id: any } }) => {
                             value={rating}
                             onChange={(e) => setRating(Number(e.target.value))}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                            disabled={isSubmitting}
                         >
                             <option value={0}>Selecciona una calificación</option>
                             <option value={1}>1 - Muy mala</option>
@@ -96,11 +90,13 @@ const ReviewCourtPage = ({ params }: { params: { court_id: any } }) => {
                             onChange={(e) => setNewReview(e.target.value)}
                             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                             rows={4}
+                            disabled={isSubmitting}
                         />
                     </div>
                     <button
                         type="submit"
-                        className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                        className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 disabled:bg-gray-400 disabled:text-gray-600 disabled:cursor-not-allowed"
+                        disabled={isSubmitting}
                     >
                         Subir
                     </button>
