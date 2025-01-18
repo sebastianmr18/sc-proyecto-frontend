@@ -23,6 +23,39 @@ const Login = () => {
         });
     };
 
+    const isValidForm = formData.email !== '' && formData.password !== '';
+
+    const renderErrorMessage = () => (
+      showErrorMessage && (
+        <div className="error-message">
+          <div className='error-icon'>
+            <svg className="icon-error" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+            </svg>            
+          </div>
+          <div className="error-text">
+            <p>Email o contraseña incorrectos</p>
+          </div>
+        </div>
+      )
+    );
+
+    const renderSubmitButton = () => (
+      <button type='submit' disabled={isValidForm && isSubmitting} className="submit-button">
+        {isSubmitting ? (
+          <>
+            <Loader className="loader" />
+            <span>Cargando...</span>
+          </>
+        ) : (
+          <>
+            <span>Iniciar sesión</span>
+            <ArrowRight className="arrow-icon" />
+          </>
+        )}
+      </button>
+    );
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
@@ -41,9 +74,6 @@ const Login = () => {
         }
     }
 
-    const isValidForm = () => {
-        return formData.email !== '' && formData.password !== '';
-    };    
         return (
           <div className="login-container">
             <div className="login-wrapper">
@@ -101,39 +131,8 @@ const Login = () => {
                         />
                       </div>
                     </div>
-      
-                    {/* Error Message */}
-                    {showErrorMessage && (
-                      <div className="error-message">
-                        <div className="error-icon">
-                          <svg className="icon-error" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                          </svg>
-                        </div>
-                        <div className="error-text">
-                          <p>Email o contraseña incorrectos</p>
-                        </div>
-                      </div>
-                    )}
-      
-                    {/* Submit Button */}
-                    <button
-                      type="submit"
-                      disabled={isValidForm() && isSubmitting}
-                      className="submit-button"
-                    >
-                      {isSubmitting ? (
-                        <>
-                          <Loader className="loader" />
-                          <span>Cargando...</span>
-                        </>
-                      ) : (
-                        <>
-                          <span>Iniciar sesión</span>
-                          <ArrowRight className="arrow-icon" />
-                        </>
-                      )}
-                    </button>
+                    {renderErrorMessage()}
+                    {renderSubmitButton()}                    
                   </form>
       
                   {/* Register Link */}
@@ -141,7 +140,7 @@ const Login = () => {
                     <p>
                       ¿No tienes cuenta?{' '}
                       <button
-                        onClick={() => window.location.href = '/register'}
+                        onClick={() => router.push('/register')}
                         className="link-button"
                       >
                         Regístrate aquí
@@ -154,7 +153,7 @@ const Login = () => {
               {/* Footer */}
               <p className="login-footer">
                 Al iniciar sesión, aceptas nuestros{' '}
-                <button onClick={() => window.location.href = '/terms'} className="link-button">
+                <button onClick={() => router.push('/terms')} className="link-button">
                   términos y condiciones
                 </button>
               </p>

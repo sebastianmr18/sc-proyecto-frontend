@@ -83,7 +83,33 @@ const Register = () => {
             formData.first_name &&
             formData.last_name
         );
-    };    
+    };
+
+    const renderErrorMessage = () => (
+        errorMessage && <p className='form-error'>{errorMessage}</p>    
+    );
+
+    const renderPasswordMismatchError = () => (
+        !passwordsMatch && (
+            <p className='form-error'>Las contraseñas no coinciden.</p>
+        )
+    );
+
+    const renderInputField = (name: string, type: string, label: string, value: string) => (
+        <div className='form-group'>
+            <label htmlFor={name} className='form-label'>
+                {label}
+            </label>
+            <input
+                type={type}
+                name={name}
+                value={value}
+                className='form-input'
+                onChange={handleChange}
+                required
+            />
+        </div>
+    );
 
     return (
         <div className='form-container'>
@@ -94,92 +120,18 @@ const Register = () => {
                 <p className='form-subtitle'>Rápido, sencillo y seguro.</p>
 
                 <form onSubmit={handleSubmit} className='form'>
-                    <div className='form-group'>
-                        <label htmlFor='user_id' className="form-label">
-                            Número de identificación
-                        </label>                    
-                        <input
-                            type="number"
-                            name="user_id"
-                            value={formData.user_id}
-                            className='form-input'
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className='form-group'>
-                        <label htmlFor="email" className="form-label">
-                            Correo Electrónico
-                        </label>          
-                        <input
-                            type="email"
-                            name="email"            
-                            value={formData.email}
-                            className='form-input'
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className='form-group'>
-                        <label htmlFor="first_name" className="form-label">
-                            Nombre
-                        </label>
-                        <input
-                            type="text"
-                            name="first_name"                        
-                            value={formData.first_name}
-                            className='form-input'
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className='form-group'>
-                        <label htmlFor="last_name" className="form-label">
-                            Apellido
-                        </label>
-                        <input
-                            type="text"
-                            name="last_name"                        
-                            value={formData.last_name}
-                            className='form-input'
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className='form-group'>
-                        <label htmlFor="password" className="form-label">
-                            Contraseña
-                        </label>
-                        <input
-                            type="password"
-                            name="password"                        
-                            value={formData.password}
-                            className='form-input'
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className='form-group'>
-                        <label htmlFor="confirm_password" className="form-label">
-                            Confirmar contraseña
-                        </label>
-                        <input
-                            type="password"
-                            name="confirm_password"                        
-                            value={formData.confirm_password}
-                            className='form-input'
-                            onChange={handleChange}
-                            required
-                        />                    
-                    </div>
-                    {errorMessage && <p className='form-error'>{errorMessage}</p>}
-                    {!passwordsMatch && (
-                        <p className='form-error'>Las contraseñas no coinciden.</p>
-                    )}
+                    {renderInputField('user_id', 'number', 'Número de identificación', formData.user_id)}
+                    {renderInputField('email', 'email', 'Correo Electrónico', formData.email)}
+                    {renderInputField('first_name', 'text', 'Nombre', formData.first_name)}
+                    {renderInputField('last_name', 'text', 'Apellido', formData.last_name)}
+                    {renderInputField('password', 'password', 'Contraseña', formData.password)}
+                    {renderInputField('confirm_password', 'password', 'Confirmar contraseña', formData.confirm_password)}
+                    {renderErrorMessage()}
+                    {renderPasswordMismatchError()}
                     <button 
                         type="submit"
                         className='form-button'
-                        disabled={isFormValid() ? false : true}
+                        disabled={!isFormValid()}
                     >
                         Registrarse
                     </button>
