@@ -61,7 +61,6 @@ const Login = () => {
         setIsSubmitting(true);
         try {
             await login(formData.email, formData.password);
-            console.clear();
             router.push('/dashboard');
         }
         catch (error) {
@@ -69,7 +68,6 @@ const Login = () => {
                 setShowErrorMessage(true);                
             }
         } finally {
-            console.clear();
             setIsSubmitting(false);
         }
     }
@@ -87,7 +85,7 @@ const Login = () => {
       
                 {/* Formulario */}
                 <div className="login-form-container">
-                  <form onSubmit={handleSubmit} className="login-form">
+                  <form onSubmit={handleSubmit} method="post" className="login-form">
                     {/* Email */}
                     <div className="form-group">
                       <label htmlFor="email" className="form-label">

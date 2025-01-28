@@ -25,6 +25,7 @@ interface User {
     second_last_name?: string;
     contact_number?: string;
     address?: string;
+    role?: string;
     profile_picture?: string;
 }
 
