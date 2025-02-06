@@ -14,6 +14,7 @@ interface AuthContextType {
     logout: () => void;
     isAuthenticated: boolean;
     setIsAuthenticated: (isAuth: boolean) => void;
+    isAdmin: boolean;
 }
 
 interface User {
@@ -127,9 +128,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     };
 
+    const isAdmin = user?.role === 'administrador';
+
 
     return (
-        <AuthContext.Provider value={{ user, fetchUserProfile, updateUserProfile, login, logout, isAuthenticated, setIsAuthenticated }}>
+        <AuthContext.Provider value={{ user, fetchUserProfile, updateUserProfile, login, logout, isAuthenticated, setIsAuthenticated, isAdmin }}>
             {children}
         </AuthContext.Provider>
     );

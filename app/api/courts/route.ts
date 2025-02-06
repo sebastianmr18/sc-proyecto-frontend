@@ -10,7 +10,7 @@ export async function GET() {
     });
 }
 
-async function getCourts() {
+export async function getCourts() {
     const NEXT_PUBLIC_URL = process.env.NEXT_PUBLIC_URL;
     try {
         const response = await axios.get(`${NEXT_PUBLIC_URL}/api/courts/`);
