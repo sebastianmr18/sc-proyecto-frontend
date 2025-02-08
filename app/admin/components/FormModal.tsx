@@ -9,6 +9,7 @@ interface FormModalProps<T> {
     title: string;
     isSaving: boolean;
     fieldConfig: { [key: string]: { disabled?: boolean; required?: boolean } };
+    options: { [key: string]: string[] }
 }
 
 export default function GenericModal<T extends Record<string, any>>({
@@ -19,6 +20,7 @@ export default function GenericModal<T extends Record<string, any>>({
     title,
     isSaving,
     fieldConfig,
+    options
 }: FormModalProps<T>) {
     const [formData, setFormData] = useState<Record<string, any>>({});
 
@@ -26,10 +28,13 @@ export default function GenericModal<T extends Record<string, any>>({
         setFormData(data || {}); // Actualiza los datos cuando cambia el modelo
     }, [data]);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (formData) {
-            setFormData({ ...formData, [e.target.name]: e.target.value });
-        }
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+        const { name, value, type } = e.target;
+        const newValue = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
+        setFormData({
+            ...formData,
+            [name]: newValue,
+        });
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -53,18 +58,48 @@ export default function GenericModal<T extends Record<string, any>>({
                                 {Object.keys(formData).length > 0 ? (
                                     Object.keys(formData).map((key) => (
                                         <div key={key} className="mb-4">
-                                            <label className="block text-sm font-medium text-gray-700 capitalize">
-                                                {key}
+                                            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor={key}>
+                                                {key.charAt(0).toUpperCase() + key.slice(1)}
                                             </label>
-                                            <input
-                                                type="text"
-                                                name={key}
-                                                value={formData[key] !== undefined ? String(formData[key]) : ""}
-                                                onChange={handleChange}
-                                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                                disabled={fieldConfig[key]?.disabled}
-                                                required={fieldConfig[key]?.required}
-                                            />
+                                            {options[key] ? (
+                                                <select
+                                                    id={key}
+                                                    name={key}
+                                                    value={formData[key]}
+                                                    onChange={handleChange}
+                                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                    disabled={fieldConfig[key]?.disabled}
+                                                    required={fieldConfig[key]?.required}
+                                                >
+                                                    {options[key].map((option) => (
+                                                        <option key={option} value={option}>
+                                                            {option}
+                                                        </option>
+                                                    ))}
+                                                </select>
+                                            ) : typeof formData[key] === 'boolean' ? (
+                                                <input
+                                                    type="checkbox"
+                                                    id={key}
+                                                    name={key}
+                                                    checked={formData[key]}
+                                                    onChange={handleChange}
+                                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                    disabled={fieldConfig[key]?.disabled}
+                                                    required={fieldConfig[key]?.required}
+                                                />
+                                            ) : (
+                                                <input
+                                                    type="text"
+                                                    id={key}
+                                                    name={key}
+                                                    value={formData[key]}
+                                                    onChange={handleChange}
+                                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                    disabled={fieldConfig[key]?.disabled}
+                                                    required={fieldConfig[key]?.required}
+                                                />
+                                            )}
                                         </div>
                                     ))
                                 ) : (

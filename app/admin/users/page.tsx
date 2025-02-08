@@ -58,6 +58,12 @@ const AdminUsersPage = () => {
         is_staff: { disabled: false, required: false },
     };
 
+    const fieldOptions = {
+        rol: ["cliente", "administador"],
+        is_active: ["true", "false"],
+        is_staff: ["true", "false"]
+    }
+
     useEffect(() => {
         fetchUsers();
     }, []);    
@@ -219,6 +225,7 @@ const AdminUsersPage = () => {
                                 title={isUpdating ? "Editar Usuario" : "Crear Usuario"}
                                 isSaving={isSaving}
                                 fieldConfig={fieldConfig}
+                                options={fieldOptions}
                             />
                             { /* Modal de confirmación */ }
                             <ConfirmModal

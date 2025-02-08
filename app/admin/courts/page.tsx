@@ -41,6 +41,12 @@ const AdminCourtsPage = () => {
         sport: ""
     }
 
+    const fieldOptions = {
+        surface_type: ["pasto", "arena", "arcilla", "ladrillo"],
+        has_active_promotion: ["true", "false"],
+        sport: ["futbol", "voleibol", "tenis", "otro"]
+    }
+
     const createFieldConfig = {
         court_id: {disabled: true, required: true},
         name: {disabled: false, required: true},
@@ -234,6 +240,7 @@ const AdminCourtsPage = () => {
                                 title={isUpdating ? "Editar Usuario" : "Crear Usuario"}
                                 isSaving={isSaving}
                                 fieldConfig={fieldConfig}
+                                options={fieldOptions}
                             />
                             { /* Modal de confirmación */}
                             <ConfirmModal
