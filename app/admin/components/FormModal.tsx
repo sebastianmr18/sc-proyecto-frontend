@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useState, useEffect } from "react";
 
-interface FormModalProps<T> {
+interface FormModalProps {
     isOpen: boolean;
     onClose: () => void;
     data: Record<string, any> | null;
@@ -9,10 +9,10 @@ interface FormModalProps<T> {
     title: string;
     isSaving: boolean;
     fieldConfig: { [key: string]: { disabled?: boolean; required?: boolean } };
-    options: { [key: string]: string[] }
+    options: { [key: string]: string[] };
 }
 
-export default function GenericModal<T extends Record<string, any>>({
+export default function GenericModal({
     isOpen,
     onClose,
     data,
@@ -20,21 +20,21 @@ export default function GenericModal<T extends Record<string, any>>({
     title,
     isSaving,
     fieldConfig,
-    options
-}: FormModalProps<T>) {
+    options,
+}: FormModalProps) {
     const [formData, setFormData] = useState<Record<string, any>>({});
 
     useEffect(() => {
-        setFormData(data || {}); // Actualiza los datos cuando cambia el modelo
+        setFormData(data || {});
     }, [data]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target;
-        const newValue = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
-        setFormData({
-            ...formData,
+        const newValue = type === "checkbox" ? (e.target as HTMLInputElement).checked : value;
+        setFormData((prev) => ({
+            ...prev,
             [name]: newValue,
-        });
+        }));
     };
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -48,12 +48,9 @@ export default function GenericModal<T extends Record<string, any>>({
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-50" onClose={onClose}>
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                    <Dialog.Panel
-                        className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg md:max-w-xl lg:max-w-2xl"
-                    >
+                    <Dialog.Panel className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg md:max-w-xl lg:max-w-2xl">
                         <Dialog.Title className="text-lg font-bold mb-4">{title}</Dialog.Title>
                         <form onSubmit={handleSubmit} className="space-y-4">
-                            {/* Contenedor con scroll si hay muchos campos */}
                             <div className="max-h-[60vh] overflow-y-auto px-2">
                                 {Object.keys(formData).length > 0 ? (
                                     Object.keys(formData).map((key) => (
@@ -77,7 +74,7 @@ export default function GenericModal<T extends Record<string, any>>({
                                                         </option>
                                                     ))}
                                                 </select>
-                                            ) : typeof formData[key] === 'boolean' ? (
+                                            ) : typeof formData[key] === "boolean" ? (
                                                 <input
                                                     type="checkbox"
                                                     id={key}
@@ -107,14 +104,13 @@ export default function GenericModal<T extends Record<string, any>>({
                                 )}
                             </div>
 
-                            {/* Botones siempre visibles */}
                             <div className="flex items-center justify-between">
                                 <button
                                     type="submit"
                                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                     disabled={isSaving}
                                 >
-                                    {isSaving ? 'Guardando...' : 'Guardar'}
+                                    {isSaving ? "Guardando..." : "Guardar"}
                                 </button>
                                 <button
                                     type="button"
@@ -123,7 +119,6 @@ export default function GenericModal<T extends Record<string, any>>({
                                 >
                                     Cancelar
                                 </button>
-
                             </div>
                         </form>
                     </Dialog.Panel>

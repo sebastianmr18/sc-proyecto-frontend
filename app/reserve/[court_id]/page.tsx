@@ -84,7 +84,7 @@ const ReserveCourtPage = ({ params }: { params: { court_id: any } }) => {
             }
 
             // Paso 2: Crear pago
-            const paymentResponse = await axios.post('/api/payments', payment_load);            
+            await axios.post('/api/payments', payment_load);            
             toast.success("Reserva y pago creados exitosamente!");            
 
         } catch (error: any) {

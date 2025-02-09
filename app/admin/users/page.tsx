@@ -1,6 +1,5 @@
 "use client"
 import React, { useState, useEffect} from 'react';
-import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import AdminContext from '@/app/_context/adminContext';
 import FormModal from '@/app/admin/components/FormModal';
@@ -22,8 +21,7 @@ const AdminUsersPage = () => {
     const [userIdToDelete, setUserIdToDelete] = useState<number | null>(null);
     const [selectedUser, setSelectedUser] = useState<Record<string, any> | User | null>(null);
     const [isUpdating, setIsUpdating] = useState(false);
-    const [isSaving, setIsSaving] = useState(false);
-    const [message, setMessage] = useState<string | null>(null);
+    const [isSaving, setIsSaving] = useState(false);    
     const [fieldConfig, setFieldConfig] = useState<{ [key: string]: { disabled?: boolean; required?: boolean } }>({});
 
     const defaultUser = {
@@ -108,8 +106,7 @@ const AdminUsersPage = () => {
         }
     }
     const handleSave = async (data: any) => {
-        setIsSaving(true);
-        setMessage(null);
+        setIsSaving(true);        
         try {
             if (isUpdating) {
                 const response = await axios.put('/api/users', data);
@@ -117,7 +114,7 @@ const AdminUsersPage = () => {
                 if (response.data.status === 400 && response.data.data.email) {
                     toast.error(response.data.data.email[0]);
                 } else {
-                    setMessage('Usuario actualizado con éxito');
+                    
                     toast.success('Usuario actualizado con éxito');
                 }
             } else {
@@ -125,8 +122,7 @@ const AdminUsersPage = () => {
                 console.log('Response', response);
                 if (response.data.status === 400 && response.data.data.email) {
                     toast.error(response.data.data.email[0]);
-                } else {
-                    setMessage('Usuario creado con éxito');
+                } else {                    
                     toast.success('Usuario creado con éxito');
                 }
             }

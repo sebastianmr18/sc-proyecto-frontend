@@ -1,7 +1,7 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState, useEffect } from "react";
+import { Fragment } from "react";
 
-interface ConfirmModalProps<T> {
+interface ConfirmModalProps {
     isOpen: boolean;
     onClose: () => void;
     onConfirm: () => void;
@@ -9,21 +9,19 @@ interface ConfirmModalProps<T> {
     message: string;
 }
 
-export default function GenericModal<T extends Record<string, any>>({
+export default function GenericModal({
     isOpen,
     onClose,
     onConfirm,
     title,
     message
-}: ConfirmModalProps<T>) {
+}: ConfirmModalProps) {
     if (!isOpen) return null;
     return (
         <Transition appear show={isOpen} as={Fragment}>
             <Dialog as="div" className="relative z-50" onClose={onClose}>
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                    <Dialog.Panel
-                        className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg md:max-w-xl lg:max-w-2xl"
-                    >
+                    <Dialog.Panel className="bg-white p-6 rounded-lg shadow-xl w-full max-w-lg md:max-w-xl lg:max-w-2xl">
                         <Dialog.Title className="text-lg font-bold mb-4">{title}</Dialog.Title>
                         <Dialog.Description className="text-sm text-gray-600 mb-4">
                             {message}

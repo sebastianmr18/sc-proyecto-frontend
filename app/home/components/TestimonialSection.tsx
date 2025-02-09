@@ -1,24 +1,27 @@
+import Image from 'next/image';
 import { Star } from 'lucide-react';
+import { faker } from '@faker-js/faker';
+
 
 const testimonials = [
   {
     name: 'Carlos Pérez',
     role: 'Jugador Amateur',
-    image: '/api/placeholder/80/80',
+    image: faker.image.avatar(),
     comment: 'La mejor plataforma para reservar canchas. El proceso es súper sencillo y el soporte es excelente.',
     rating: 5
   },
   {
     name: 'Laura Gómez',
     role: 'Organizadora de Torneos',
-    image: '/api/placeholder/80/80',
+    image: faker.image.avatar(),
     comment: 'Las promociones y el programa de lealtad son increíbles. He ahorrado mucho dinero desde que empecé a usar la plataforma.',
     rating: 5
   },
   {
     name: 'Juan Rivera',
     role: 'Entrenador',
-    image: '/api/placeholder/80/80',
+    image: faker.image.avatar(),
     comment: 'Recomiendo esta plataforma a todos mis estudiantes. La flexibilidad de horarios y la facilidad de uso son incomparables.',
     rating: 5
   }
@@ -50,13 +53,15 @@ const TestimonialSection = () => {
               </div>
               
               <p className="text-gray-700 mb-6 italic">
-                "{testimonial.comment}"
+                &quot;{testimonial.comment}&quot;
               </p>
               
               <div className="flex items-center gap-4">
-                <img
+                <Image
                   src={testimonial.image}
                   alt={testimonial.name}
+                  width={48}
+                  height={48}
                   className="w-12 h-12 rounded-full object-cover"
                 />
                 <div>

@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from 'react';
-import { Menu, X, User, LogOut, Home, Settings, Activity, UserRoundCog } from 'lucide-react';
+import { Menu, X, User, LogOut, Settings, Activity, UserRoundCog } from 'lucide-react';
 import { useAuth } from '../_context/authContext';
 import { usePathname, useRouter } from 'next/navigation';
 

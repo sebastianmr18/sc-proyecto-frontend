@@ -5,7 +5,6 @@ import { useAuth } from '@/app/_context/authContext';
 import withAuth from '@/app/_utils/withAuth';
 import Image from 'next/image';
 import axios from 'axios';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 const Profile = ({ params }: { params: { user_id: any } }) => {
@@ -87,15 +86,6 @@ const Profile = ({ params }: { params: { user_id: any } }) => {
             [name]: value,
         }))
     }
-
-    const handleImageChange = (e: any) => {
-        const file = e.target.files[0];
-        setFormData((prevData) => ({
-            ...prevData,
-            profile_picture: file,
-        }));
-    };
-
 
     const handleFormSubmit = async (e: any) => {
         e.preventDefault();

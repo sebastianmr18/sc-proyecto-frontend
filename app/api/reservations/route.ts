@@ -1,4 +1,4 @@
-import { NextResponse, NextRequest } from 'next/server';
+import { NextResponse} from 'next/server';
 import axios from 'axios';
 
 const NEXT_PUBLIC_URL = process.env.NEXT_PUBLIC_URL;

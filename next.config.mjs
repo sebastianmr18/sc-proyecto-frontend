@@ -7,8 +7,12 @@ const nextConfig = {
         {
           protocol: 'http',
           hostname: 'localhost',
-          port: '8000', // Asegúrate de incluir el puerto si es necesario
+          port: '8000',
           pathname: '/media/**',
+        },
+        {
+          protocol: 'https',
+          hostname: 'avatars.githubusercontent.com',
         },
       ],
     },

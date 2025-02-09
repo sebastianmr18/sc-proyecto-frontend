@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import withAuth from '@/app/_utils/withAuth';
 import { useAuth } from '@/app/_context/authContext';
@@ -12,7 +12,6 @@ const ReviewCourtPage = ({ params }: { params: { court_id: any } }) => {
     const [reviewsLoaded, setReviewsLoaded] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const { user } = useAuth();
-    const [court, setCourt] = useState<any>(null);
 
     const fetchReviews = async () => {
         try {
