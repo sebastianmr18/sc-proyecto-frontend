@@ -163,7 +163,7 @@ const Profile = ({ params }: { params: { user_id: any } }) => {
                                     <label className="font-semibold text-gray-600 mb-1">{field.label}</label>
                                     <input
                                         {...field}
-                                        value={formData[field.name]}
+                                        value={formData[field.name as keyof typeof formData]}
                                         onChange={handleInputChange}
                                         className={`p-3 border rounded-lg ${
                                             field.disabled ? "bg-gray-100 cursor-not-allowed" : "bg-white"
