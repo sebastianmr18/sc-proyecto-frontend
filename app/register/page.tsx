@@ -5,7 +5,7 @@ import { useState} from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { withAuthRedirect } from '@/app/_utils/withAuthRedirect';
-import '@/public/styles/form.css';
+import '@/public/styles/register.css';
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -83,120 +83,62 @@ const Register = () => {
             formData.first_name &&
             formData.last_name
         );
-    };    
+    };
+
+    const renderErrorMessage = () => (
+        errorMessage && <p className='form-error'>{errorMessage}</p>    
+    );
+
+    const renderPasswordMismatchError = () => (
+        !passwordsMatch && (
+            <p className='form-error'>Las contraseñas no coinciden.</p>
+        )
+    );
+
+    const renderInputField = (name: string, type: string, label: string, value: string) => (
+        <div className='form-group'>
+            <label htmlFor={name} className='form-label'>
+                {label}
+            </label>
+            <input
+                type={type}
+                name={name}
+                value={value}
+                className='form-input'
+                onChange={handleChange}
+                required
+            />
+        </div>
+    );
 
     return (
-        <>
-            <div className='form-container'>
-                <h1 className='welcome-message'>
-                    Registro de usuario
+        <div className='form-container'>
+            <div className='form-card'>
+                <h1 className='form-title'>
+                    ¡Crea tu cuenta ahora!
                 </h1>
-                <form onSubmit={handleSubmit} className='space-y-6'>
-                    <div className='w-full'>
-                        <label
-                            htmlFor='user_id'
-                            className="label-input">
-                            Número de identificación
-                        </label>                    
-                        <input
-                            type="number"
-                            name="user_id"
-                            value={formData.user_id}
-                            className='input-field'
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className='w-full'>
-                        <label
-                            htmlFor="email"
-                            className="label-input">
-                            Correo Electrónico
-                        </label>          
-                        <input
-                            type="email"
-                            name="email"            
-                            value={formData.email}
-                            className='input-field'
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className='w-full'>
-                        <label
-                            htmlFor="first_name"
-                            className="label-input">
-                            Nombre
-                        </label>
-                        <input
-                            type="text"
-                            name="first_name"                        
-                            value={formData.first_name}
-                            className='input-field'
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className='w-full'>
-                        <label
-                            htmlFor="last_name"
-                            className="label-input">
-                            Apellido
-                        </label>
-                        <input
-                            type="text"
-                            name="last_name"                        
-                            value={formData.last_name}
-                            className='input-field'
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className='w-full'>
-                        <label
-                            htmlFor="password"
-                            className="label-input">
-                            Contraseña
-                        </label>
-                        <input
-                            type="password"
-                            name="password"                        
-                            value={formData.password}
-                            className='input-field'
-                            onChange={handleChange}
-                            required
-                        />
-                    </div>
-                    <div className='w-full'>
-                        <label
-                            htmlFor="confirm_password"
-                            className="label-input">
-                            Confirmar contraseña
-                        </label>
-                        <input
-                            type="password"
-                            name="confirm_password"                        
-                            value={formData.confirm_password}
-                            className='input-field'
-                            onChange={handleChange}
-                            required
-                        />                    
-                    </div>
-                    {errorMessage && <p className='error-message'>{errorMessage}</p>}
-                    {!passwordsMatch && (
-                        <p className='error-message'>Las contraseñas no coinciden.</p>
-                    )}
+                <p className='form-subtitle'>Rápido, sencillo y seguro.</p>
+
+                <form onSubmit={handleSubmit} className='form'>
+                    {renderInputField('user_id', 'number', 'Número de identificación', formData.user_id)}
+                    {renderInputField('email', 'email', 'Correo Electrónico', formData.email)}
+                    {renderInputField('first_name', 'text', 'Nombre', formData.first_name)}
+                    {renderInputField('last_name', 'text', 'Apellido', formData.last_name)}
+                    {renderInputField('password', 'password', 'Contraseña', formData.password)}
+                    {renderInputField('confirm_password', 'password', 'Confirmar contraseña', formData.confirm_password)}
+                    {renderErrorMessage()}
+                    {renderPasswordMismatchError()}
                     <button 
                         type="submit"
-                        className='submit-button'
-                        disabled={isFormValid() ? false : true}
+                        className='form-button'
+                        disabled={!isFormValid()}
                     >
                         Registrarse
                     </button>
                 </form>
             </div>
-        </>
-    )
+        </div>
+    );
 };
 
 export default withAuthRedirect(Register);

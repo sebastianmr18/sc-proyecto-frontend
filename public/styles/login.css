@@ -1,0 +1,79 @@
+/*
+  Based on TailwindCSS recommendations,
+  consider using classes instead of the `@apply` directive
+  @see https://tailwindcss.com/docs/reusing-styles#avoiding-premature-abstraction
+*/
+/* Login.css */
+.login-container {
+  @apply min-h-screen flex items-center justify-center p-8;
+  background: linear-gradient(to bottom right, #42A5F5, #1E88E5);
+}
+.login-wrapper {
+  @apply max-w-md w-full;
+}
+.login-card {
+  @apply bg-[white] shadow-[0_4px_10px_rgba(0,0,0,0.1)] overflow-hidden rounded-3xl;
+}
+.login-header {
+  @apply text-center pt-8 pb-6 px-8;
+}
+.login-title {
+  @apply text-3xl font-bold text-gray-900 text-center mb-2;
+}
+.login-subtitle {
+  @apply text-sm text-[#718096];
+}
+.login-form-container {
+  @apply p-8;
+}
+.login-form {
+  @apply flex flex-col gap-6;
+}
+.form-group {
+  @apply flex flex-col gap-2;
+}
+.form-label {
+  @apply text-sm font-medium text-[#4a5568];
+}
+.input-wrapper {
+  @apply relative;
+}
+.input-icon {
+  @apply absolute -translate-y-2/4 left-3 top-2/4;
+}
+.icon {
+  @apply w-5 h-5 text-[#a0aec0];
+}
+.input-field {
+  @apply w-full border border-slate-200 text-[#2d3748] bg-[white] transition-[border-color] duration-[0.2s,background-color] delay-[0.2s] pl-10 pr-3 py-3 rounded-2xl border-solid focus:bg-[#edf2f7] focus:border-[#4299e1] disabled:bg-[#f7fafc] disabled:text-[#a0aec0];
+}
+.input-field:focus {
+  outline: none;
+}
+.error-message {
+  @apply flex items-center bg-[#fff5f5] p-4 rounded-lg border-l-4 border-l-[#f56565] border-solid;
+}
+.error-icon {
+  @apply mr-3;
+}
+.error-text {
+  @apply text-sm text-[#e53e3e];
+}
+.submit-button {
+  @apply flex items-center justify-center gap-2 bg-[#3182ce] text-[white] font-medium transition-[background-color] duration-[0.2s] px-4 py-3 rounded-2xl hover:bg-[#2b6cb0] disabled:bg-[#a0aec0] disabled:cursor-not-allowed;
+}
+.loader {
+  @apply w-5 h-5;
+}
+.arrow-icon {
+  @apply w-5 h-5;
+}
+.register-link {
+  @apply text-center mt-8;
+}
+.link-button {
+  @apply font-medium text-[#3182ce] transition-[color] duration-[0.2s] hover:text-[#2b6cb0];
+}
+.login-footer {
+  @apply text-center text-sm text-[#718096] mt-6;
+}

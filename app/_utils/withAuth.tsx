@@ -6,7 +6,7 @@ import Cookies from "js-cookie";
 import { useRedirect } from "../_context/redirectContext";
 import LoadingScreen from "../_components/LoadingScreen";
 
-const withAuth = (WrappedComponent: React.ComponentType) => {
+const withAuth = (WrappedComponent: React.ComponentType<any>) => {
 
     const AuthComponent = (props: any) => { 
         const router = useRouter();
@@ -18,11 +18,7 @@ const withAuth = (WrappedComponent: React.ComponentType) => {
             setIsAuthenticated(!!accessToken);
 
             if (!accessToken) {
-                setRedirecting(true);
-                setTimeout(() => {
-                    router.push('/home');
-                    setRedirecting(false);
-                }, 3000);
+                router.push('/not-registered');
             }
         }, [router, setRedirecting]);
 

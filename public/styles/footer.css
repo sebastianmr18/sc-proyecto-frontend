@@ -1,0 +1,23 @@
+.footer {
+  @apply text-[white] relative flex justify-center items-center flex-col transition-all duration-[0.3s] ease-[ease] px-4 py-8;
+  background: #2c2c54;
+}
+.footer-container {
+  @apply flex flex-col items-center gap-4 w-full max-w-[1200px];
+}
+.footer-brand {
+  @apply text-center text-[0.9rem] text-[#b8b8d2];
+}
+.footer-links {
+  @apply flex gap-4 justify-center;
+}
+.footer-link {
+  @apply text-[0.9rem] text-[#6e8efb] no-underline transition-[color] duration-[0.3s] ease-[ease] hover:text-[#a777e3];
+}
+.footer-social {
+  @apply flex gap-[0.8rem] justify-center;
+}
+.social-icon {
+  @apply text-[#b8b8d2] hover:text-[#6e8efb] hover:scale-110;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
