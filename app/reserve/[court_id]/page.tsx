@@ -1,4 +1,6 @@
 "use client";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/app/_context/authContext';

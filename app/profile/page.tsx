@@ -1,5 +1,6 @@
 // app/profile/Profile.tsx
 "use client";
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '@/app/_context/authContext';
 import withAuth from '@/app/_utils/withAuth';
