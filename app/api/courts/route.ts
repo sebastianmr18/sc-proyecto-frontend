@@ -67,87 +67,51 @@ export async function DELETE(request: NextRequest) {
     }
 }
 
-export async function getCourts() {
+const getCourts = async () => {
     try {
         const response = await axios.get(`${NEXT_PUBLIC_URL}/api/courts/`);
         return response.data;
-    } catch (error: unknown) {
-        if (axios.isAxiosError(error) && error.response) {
-            // Si el error es una respuesta del servidor, extraemos la información de la respuesta
-            const errorData = error.response.data;
-            return {
-                status: error.response.status,
-                data: errorData,
-            };
-        } else if (error instanceof Error && error.message) {
-            // Si es un error estándar de JavaScript
-            return { status: 500, data: { message: error.message } };
-        } else {
-            // Si ocurre un error inesperado, devolvemos un mensaje genérico
-            return { status: 500, data: { message: 'An unexpected error occurred' } };
-        }
+    } catch (error) {
+        return handleAxiosError(error);
     }
-}
+};
 
-export async function createCourt(data: any) {
+const createCourt = async (data: any) => {
     try {
         const response = await axios.post(`${NEXT_PUBLIC_URL}/api/courts/`, data);
         return response.data;
     } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-            // Si el error es una respuesta del servidor, extraemos la información de la respuesta
-            const errorData = error.response.data;
-            return {
-                status: error.response.status,
-                data: errorData,
-            };
-        } else if (error instanceof Error && error.message) {
-            // Si es un error estándar de JavaScript
-            return { status: 500, data: { message: error.message } };
-        } else {
-            // Si ocurre un error inesperado, devolvemos un mensaje genérico
-            return { status: 500, data: { message: 'An unexpected error occurred' } };
-        }
+        return handleAxiosError(error);
     }
-}
+};
 
-export async function updateCourt(court_id: number, data:any) {
+const updateCourt = async (court_id: number, data: any) => {
     try {
         const response = await axios.put(`${NEXT_PUBLIC_URL}/api/courts/${court_id}/`, data);
-        return response.data
-    } catch (error: unknown) {
-        if (axios.isAxiosError(error) && error.response) {
-            // Si el error es una respuesta del servidor, extraemos la información de la respuesta
-            const errorData = error.response.data;
-            return {
-                status: error.response.status,
-                data: errorData,
-            };
-        } else if (error instanceof Error && error.message) {
-            // Si es un error estándar de JavaScript
-            return { status: 500, data: { message: error.message } };
-        } else {
-            // Si ocurre un error inesperado, devolvemos un mensaje genérico
-            return { status: 500, data: { message: 'An unexpected error occurred' } };
-        }
+        return response.data;
+    } catch (error) {
+        return handleAxiosError(error);
     }
-}
+};
 
-export async function deleteCourt(court_id: number) {
+const deleteCourt = async (court_id: number) => {
     try {
         const response = await axios.delete(`${NEXT_PUBLIC_URL}/api/courts/${court_id}/`);
         return response.data;
-    } catch (error: unknown) {
-        if (axios.isAxiosError(error) && error.response) {
-            const errorData = error.response.data;
-            return {
-                status: error.response.status,
-                data: errorData,
-            };
-        } else if (error instanceof Error && error.message) {
-            return { status: 500, data: { message: error.message } };
-        } else {
-            return { status: 500, data: { message: 'An unexpected error occurred' } };
-        }
+    } catch (error) {
+        return handleAxiosError(error);
     }
-}
+};
+
+const handleAxiosError = (error: unknown) => {
+    if (axios.isAxiosError(error) && error.response) {
+        return {
+            status: error.response.status,
+            data: error.response.data,
+        };
+    } else if (error instanceof Error && error.message) {
+        return { status: 500, data: { message: error.message } };
+    } else {
+        return { status: 500, data: { message: 'An unexpected error occurred' } };
+    }
+};

@@ -77,7 +77,7 @@ export async function DELETE(request: Request) {
     }
 }
 
-export async function updateReview(review_id: number, data: any) {
+async function updateReview(review_id: number, data: any) {
     try {
         const response = await axios.put(`${NEXT_PUBLIC_URL}/api/reviews/${review_id}/`, data);
         return response.data;
