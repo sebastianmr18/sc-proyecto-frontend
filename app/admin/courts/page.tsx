@@ -181,7 +181,7 @@ const AdminCourtsPage = () => {
                     <p>Cargando datos...</p>
                 ) : (
                     <div className="bg-white rounded-lg shadow-lg p-6 w-11/12 h-[60vh] flex flex-col overflow-hidden">
-                        <h2 className="text-2xl font-bold mb-4">Usuarios</h2>
+                        <h2 className="text-2xl font-bold mb-4">Canchas</h2>
                         <div className="overflow-x-auto overflow-y-auto flex-grow">
                             <table className="w-full border-collapse min-w-max">
                                 <thead>
@@ -237,7 +237,7 @@ const AdminCourtsPage = () => {
                                 onClose={() => setIsModalOpen(false)}
                                 data={selectedCourt}                                
                                 onSave={handleSave}
-                                title={isUpdating ? "Editar Usuario" : "Crear Usuario"}
+                                title={isUpdating ? "Editar Cancha" : "Crear Cancha"}
                                 isSaving={isSaving}
                                 fieldConfig={fieldConfig}
                                 options={fieldOptions}
@@ -248,7 +248,7 @@ const AdminCourtsPage = () => {
                                 onClose={closeConfirmModal}
                                 onConfirm={confirmDelete}
                                 title="Confirmar eliminación"
-                                message="¿Está seguro de que desea eliminar este usuario?"
+                                message="¿Está seguro de que desea eliminar esta cancha?"
                             />
                         </div>
                         <button
