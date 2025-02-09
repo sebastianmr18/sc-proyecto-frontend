@@ -1,24 +1,20 @@
 "use client";
-
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-
+import HeroSection from "./components/HeroSection";
+import FeatureList from "./components/FeatureList";
+import TestimonialSection from "./components/TestimonialSection";
+import CallToAction from "./components/CallToAction";
+import FAQSection from "./components/FAQSection";
 
 export default function Home() {
-
-
   return (
     <div>
-      <Header />
-      
       <main>
-        <h1 className='text-center text-3xl font-bold'>
-          Home
-        </h1>
+        <HeroSection />
+        <FeatureList />    
+        <TestimonialSection />
+        <FAQSection />
+        <CallToAction />
       </main>
-      <Footer />
     </div>
   );
 }

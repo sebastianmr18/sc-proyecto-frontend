@@ -1,0 +1,22 @@
+.card-container {
+    @apply flex justify-center items-center bg-white;
+  }
+
+  .card {
+    @apply bg-white shadow-[0_4px_8px_rgba(0,0,0,0.1)] border border-gray-300 text-center p-8 rounded-[15px];
+  }
+  .card-title {
+    @apply text-2xl text-[#333] mb-4;
+    font-family: Arial, sans-serif;
+  }
+  
+  .card-button {
+    @apply text-white text-base shadow-[0_4px_8px_rgba(0,0,0,0.1)] cursor-pointer transition-transform duration-[0.3s,box-shadow] delay-[0.3s] m-2 px-6 py-3 rounded-[25px] border-[none] hover:shadow-[0_6px_12px_rgba(0,0,0,0.2)] hover:scale-105;
+    background: linear-gradient(135deg, #2196f3, #21cbf3);
+  }
+
+  .card-subtitle {
+    @apply text-base text-[#333] mx-0 my-4;
+    font-family: Arial, sans-serif;
+  }
+  
